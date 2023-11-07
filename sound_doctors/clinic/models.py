@@ -1,3 +1,148 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
+from django.urls import reverse
+from django.contrib.auth import get_user_model
+from tinymce.models import HTMLField
+from django.contrib.auth.models import User
 
-# Create your models here.
+
+User = get_user_model()
+
+    
+class Instrument(models.Model):
+    name = models.CharField(_("name"), max_length=50)
+    type = models.CharField(_("type"), max_length=50)
+    damage_text = HTMLField(_("damage_text"), max_length=500, default='', blank=True)
+    damage_img = models.ImageField(_("damage_img"), upload_to='damage_img', null=True, blank=True)
+    
+
+    class Meta:
+        verbose_name = _("instrument")
+        verbose_name_plural = _("instruments")
+
+    def __str__(self):
+        return f"{self.name} {self.type}"
+
+    def get_absolute_url(self):
+        return reverse("instrument_detail", kwargs={"pk": self.pk})
+
+
+class Doctor(models.Model):
+    first_name = models.CharField(_("first_name"), max_length=50)
+    last_name = models.CharField(_("last_name"), max_length=50)
+    specialization = models.CharField(_("specialization"), max_length=100)
+
+    class Meta:
+        verbose_name = _("doctor")
+        verbose_name_plural = _("doctors")
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name} {self.specialization}"
+
+    def get_absolute_url(self):
+        return reverse("doctor_detail", kwargs={"pk": self.pk})
+
+class Service(models.Model):
+    name = models.CharField(_("name"), max_length=250)
+    price = models.DecimalField(_("price"), max_digits=18, decimal_places=2)
+    about = HTMLField(_("about"), max_length=10000, default='', blank=True)
+    
+    class Meta:
+        verbose_name = _("service")
+        verbose_name_plural = _("services")
+
+    def __str__(self):
+        return f"{self.name} {self.price} {self.about}"
+
+    def get_absolute_url(self):
+        return reverse("service_detail", kwargs={"pk": self.pk})
+    
+
+SERVICEORDER_STATUS = (
+    (0, _("Confirmed")),
+    (1, _("Completed")),
+    (2, _("Cancelled")),
+)
+
+
+class ServiceOrder(models.Model):
+    doctor = models.ForeignKey(
+        Doctor,
+        verbose_name=_("doctor"),
+        on_delete=models.CASCADE,
+        related_name="jobs",
+        null=True,
+        blank=True,
+    )
+    service = models.ForeignKey(
+        Service,
+        verbose_name=_("service"),
+        on_delete=models.CASCADE
+    )
+    customer = models.ForeignKey(
+        User,
+        verbose_name=_("customer"),
+        on_delete=models.CASCADE,
+        related_name="service_orders",
+    )
+    status = models.PositiveSmallIntegerField(
+        _("status"),
+        choices=SERVICEORDER_STATUS,
+        default=0,
+    )
+    created_at = models.DateTimeField(_("created_at"), auto_now=False, auto_now_add=True)
+
+    class Meta:
+        verbose_name = _("service order")
+        verbose_name_plural = _("service orders")
+
+    def __str__(self):
+        return f"{self.doctor} {self.service} {self.customer}"
+
+    def get_absolute_url(self):
+        return reverse("serviceorder_detail", kwargs={"pk": self.pk})
+
+
+class ServiceReview(models.Model):
+    doctor = models.ForeignKey(
+        Doctor, 
+        verbose_name=_("doctor"), 
+        on_delete=models.CASCADE,
+        related_name="customer_reviews",
+    )
+    reviewer = models.ForeignKey(
+        User, 
+        verbose_name=_("reviewer"), 
+        on_delete=models.CASCADE,
+        related_name='barber_reviews',
+    )
+    content = models.TextField(_("content"), max_length=4000)
+    created_at = models.DateTimeField(
+        _("created at"), 
+        auto_now_add=True, 
+        db_index=True
+    )
+
+    class Meta:
+        verbose_name = _("service review")
+        verbose_name_plural = _("service reviews")
+
+    def __str__(self):
+        return f"{self.doctor} review by {self.reviewer}"
+
+    def get_absolute_url(self):
+        return reverse("servicereview_detail", kwargs={"pk": self.pk})
+
+
+class AboutUs(models.Model):
+    content = HTMLField(_("content"), blank=True, null=True)
+
+    class Meta:
+        verbose_name = _("about us")
+        verbose_name_plural = _("about us")
+
+    def __str__(self):
+        return self.content
+
+    def get_absolute_url(self):
+        return reverse("aboutus_detail", kwargs={"pk": self.pk})
