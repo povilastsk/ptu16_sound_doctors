@@ -5,7 +5,7 @@ from . import models
 class InstrumentAdmin(admin.ModelAdmin):
     list_display = ("name", "type", "damage_text", "damage_img")
     search_fields = ("name", "type")
-    list_filter = ("name")
+    list_filter = ("name", )
 
 
 class DoctorAdmin(admin.ModelAdmin):
@@ -21,9 +21,10 @@ class ServiceAdmin(admin.ModelAdmin):
 
 
 class ServiceOrderAdmin(admin.ModelAdmin):
-    list_display = ("doctor__first_name", "doctor__last_name", "specialization")
-    search_fields = ("last_name", "specialization")
-    list_filter = ("specialization", )
+    list_display = ("doctor", "service", "customer", "status", "created_at")
+    search_fields = ("doctor__last_name", "service__name", "customer__username")
+    list_filter = ("doctor__specialization", "status")
+    readonly_fields = ("id", )
 
 
 @admin.register(models.ServiceReview)

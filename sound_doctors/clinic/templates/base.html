@@ -1,11 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+{% load static i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>{% block title %}{% trans "sound doctors"|title %}{% endblock %}</title>
 </head>
 <body>
-    
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'index' %}">{% trans "home"|capfirst %}</a></li>
+                {% comment %} <li><a href="{% url  %}">{% trans "services"|capfirst %}</a></li>
+                <li><a href="{% url  %}">{% trans "about us"|capfirst %}</a></li> {% endcomment %}
+            </ul>
+        </nav>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <p>&copy;<a href="{% url "index" %}">{% trans "sound doctors"|title %}</a></p>
+    </footer>
 </body>
 </html>

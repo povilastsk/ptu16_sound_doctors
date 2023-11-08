@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load i18n static %}
+{% block title %}{% trans "Home"|capfirst %} {{block.super}}{% endblock title %}
+{% block content %}
+  <section id="hero">
+    <h1>Welcome to Sound Doctors</h1>
+    <p>Your trusted destination for instrument repairs and maintenance.</p>
+    {% comment %} <a href="{% url  %}" class="btn btn-primary">See Our Services</a> {% endcomment %}
+  </section>
+
+  <section id="about">
+    <h2>About Us</h2>
+    <p>Learn about our passionate team of instrument repair experts and our commitment to quality.</p>
+    {% comment %} <a href="{% url  %}" class="btn btn-secondary">Learn More</a> {% endcomment %}
+  </section>
+
+  <section id="services">
+    <h2>Our Services</h2>
+    <p>Explore the services we offer to keep your musical instruments in top condition.</p>
+    {% comment %} <a href="{% url  %}" class="btn btn-secondary">View Services</a> {% endcomment %}
+  </section>
+</div>
+{% endblock %}
