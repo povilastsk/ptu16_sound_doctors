@@ -12,3 +12,17 @@ from django.views.generic import View
 
 def index(request):
     return render(request, "clinic/index.html")
+
+def about_us(request):
+    about_us_content = models.AboutUs.objects.first()
+    return render(
+        request,
+        "kirpykla/about_us.html",
+        {"about_us_content": about_us_content}
+    )
+
+
+class ServiceListView(ListView):
+    model = models.Service
+    template_name = 'kirpykla/service_list.html'
+    context_object_name = 'services'

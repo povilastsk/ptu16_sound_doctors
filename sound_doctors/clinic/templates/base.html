@@ -13,8 +13,8 @@
         <nav>
             <ul>
                 <li><a href="{% url 'index' %}">{% trans "home"|capfirst %}</a></li>
-                {% comment %} <li><a href="{% url  %}">{% trans "services"|capfirst %}</a></li>
-                <li><a href="{% url  %}">{% trans "about us"|capfirst %}</a></li> {% endcomment %}
+                <li><a href="{% url 'service_list' %}">{% trans "services"|capfirst %}</a></li>
+                <li><a href="{% url 'about_us' %}">{% trans "about us"|capfirst %}</a></li>
             </ul>
         </nav>
     </header>
