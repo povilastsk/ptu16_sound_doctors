@@ -3,7 +3,7 @@ Sound Doctors is a project created by a beginner Python developer based in Lithu
 
 ## Website Features
 - **User Profiles**: Create and manage user profiles, including personal information and contact details.
-- **Appointment Booking**: Allow customers to view and book standard services or book a custom service based on individual needs.
+- **Appointment Booking**: Allow customers to view and order standard services or customize based on individual needs.
 - **Admin Dashboard**: Access an admin dashboard to oversee user profiles and service orders.
 - **Customization**: Easily customize services, pricing, and availability to match your business's needs.
 
