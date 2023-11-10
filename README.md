@@ -8,7 +8,7 @@ Sound Doctors is a solo project created by a beginner Python developer based in 
 - **Customization**: Easily customize services, pricing, and availability to match your business's needs.
 
 ### Installation
-To run our project you need to execute these commands in terminal:
+To run the project one needs to execute these commands in terminal assuming Visual Studio Code editor is being used:
 1) install -r requirements.txt
 2) cd sound_doctors
 3) ./manage.py runserver
