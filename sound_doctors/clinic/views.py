@@ -3,7 +3,7 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
 from . import models, forms
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView
 from django.urls import reverse, reverse_lazy
 from django.utils.translation import gettext_lazy as _
@@ -17,12 +17,18 @@ def about_us(request):
     about_us_content = models.AboutUs.objects.first()
     return render(
         request,
-        "kirpykla/about_us.html",
+        "clinic/about_us.html",
         {"about_us_content": about_us_content}
     )
 
 
 class ServiceListView(ListView):
     model = models.Service
-    template_name = 'kirpykla/service_list.html'
+    template_name = 'clinic/service_list.html'
     context_object_name = 'services'
+
+
+class ServiceDetailView(DetailView):
+    model = models.Service
+    template_name = 'clinic/service_detail.html'
+    context_object_name = 'service'

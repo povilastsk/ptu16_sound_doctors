@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% block content %}
+    <h1>{% trans "service details"|capfirst %}</h1>
+    <p><strong>{% trans "name"|capfirst %}:</strong> {{ service.name }}</p>
+    <p><strong>{% trans "price"|capfirst %}:</strong> {{ service.price }} €</p>
+    <p><strong>{% trans "about service"|capfirst %}:</strong> {{ service.about|safe }}</p>
+{% endblock content %}

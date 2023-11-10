@@ -13,17 +13,17 @@
         </thead>
         <tbody>
             {% for service in services %}
-            <tr>
-                <td>
-                    {% if user.is_authenticated %}
-                        <a href="{% url  %}?service_id={{ service.id }}">{{ service.name }}</a>
-                    {% else %}
-                        {{ service.name }}
-                    {% endif %}
-                </td>
-                <td>{{ service.price }} €</td>
-                <td>{{ service.about|safe }}</td>
-            </tr>
+                <tr>
+                    <td>
+                        {% if user.is_authenticated %}
+                            <a href="{{ service.get_absolute_url }}">{{ service.name }}</a>
+                        {% else %}
+                            {{ service.name }}
+                        {% endif %}
+                    </td>
+                    <td>{{ service.price }} €</td>
+                    <td>{{ service.about|safe }}</td>
+                </tr>
             {% endfor %}
         </tbody>
     </table>
