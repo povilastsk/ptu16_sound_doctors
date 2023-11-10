@@ -32,3 +32,9 @@ class ServiceDetailView(DetailView):
     model = models.Service
     template_name = 'clinic/service_detail.html'
     context_object_name = 'service'
+
+
+class DoctorListView(ListView):
+    model = models.Doctor
+    template_name = 'clinic/doctor_list.html'
+    context_object_name = 'doctors'
