@@ -8,10 +8,13 @@ from . import models, forms
 User = get_user_model()
 
 @csrf_protect
-def profile_update(request: HttpRequest):
+def profile_update(request):
+    # Try to get the profile instance, or create one if it doesn't exist
+    profile, created = models.Profile.objects.get_or_create(user=request.user)
+
     if request.method == "POST":
         user_form = forms.UserUpdateForm(request.POST, instance=request.user)
-        profile_form = forms.ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+        profile_form = forms.ProfileUpdateForm(request.POST, request.FILES, instance=profile)
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
@@ -19,7 +22,7 @@ def profile_update(request: HttpRequest):
             return redirect('profile')
     else:
         user_form = forms.UserUpdateForm(instance=request.user)
-        profile_form = forms.ProfileUpdateForm(instance=request.user.profile)
+        profile_form = forms.ProfileUpdateForm(instance=profile)
     return render(request, 'user_profile/update.html', {
         'user_form': user_form,
         'profile_form': profile_form,

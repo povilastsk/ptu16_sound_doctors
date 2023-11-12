@@ -4,14 +4,17 @@
 {% block content %}
     <h1>{% trans "Doctors" %}</h1>
     <div class="card-container">
-        {% for doctor in doctors %}
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">{{ doctor.first_name }} {{ doctor.last_name }}</h5>
-                    <p class="card-text">{{ doctor.specialization }}</p>
-                    <a href="{{ doctor.get_absolute_url }}" class="btn btn-primary">{% trans "details"|capfirst %}</a>
+        {% if doctors %}
+            {% for doctor in doctors %}
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ doctor.first_name }} {{ doctor.last_name }}</h5>
+                        <p class="card-text">{{ doctor.specialization }}</p>
+                    </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        {% else %}
+            <p>{% trans "No doctors available." %}</p>
+        {% endif %}
     </div>
 {% endblock content %}
