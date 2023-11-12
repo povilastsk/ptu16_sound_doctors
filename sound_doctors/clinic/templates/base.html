@@ -16,11 +16,44 @@
                 <li><a href="{% url 'service_list' %}">{% trans "services"|capfirst %}</a></li>
                 <li><a href="{% url "doctor_list" %}">{% trans "staff"|capfirst %}</a></li>
                 <li><a href="{% url 'about_us' %}">{% trans "about us"|capfirst %}</a></li>
+                <li class="spacer"></li>
+            {% if user.is_authenticated %}
+                <li><a href="{% url "order_service" %}">{% trans "booking"|title %}</a></li>
+                <li><a href="{% url "order_list" %}">{% trans "my orders"|title %}</a></li>
+                {% if user.is_superuser or user.is_staff %}
+                    <li><a href="{% url "admin:index" %}">{% trans "admin"|title %}</a></li>
+                {% endif %}
+                    <li><a href="{% url "profile" %}">{% trans "My profile"|title %}</a></li>
+                    <li><a href="{% url "logout" %}">{% trans "logout"|title %}</a></li>
+            {% else %}
+                <li><a href="{% url "login" %}">{% trans "login"|title %}</a></li>
+                <li><a href="{% url "signup" %}">{% trans "sign up"|title %}</a></li>
+            {% endif %}
+            <li>
+                <form class="inline-form" action="{% url "set_language" %}" method="post">
+                    {% csrf_token %}
+                    <select name="language" onchange="this.form.submit();">
+                        {% for language_code, language_name in LANGUAGES %}
+                            <option value="{{ language_code }}" {% if language_code == LANGUAGE_CODE %}selected{% endif %}>
+                                {{ language_name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </form>
+            </li>
             </ul>
         </nav>
     </header>
     <main>
-        {% block content %}{% endblock %}
+        {% if messages %}
+            {% for message in messages %}
+            <div class="box box-{{ message.tags }}">
+                {{ message}}
+            </div>
+        {% endfor %}
+    {% endif %}
+        {% block content%}
+        {% endblock content%}
     </main>
     <footer>
         <p>&copy;<a href="{% url "index" %}">{% trans "sound doctors"|title %}</a></p>

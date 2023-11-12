@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load i18n static %}
+{% block content %}
+  <h2>{% trans "my orders"|capfirst %}</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>{% trans "doctor"|capfirst %}</th>
+        <th>{% trans "service"|capfirst %}</th>
+        <th>{% trans "status"|capfirst %}</th>
+        <th>{% trans "created at"|capfirst %}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for order in service_orders %}
+        <tr>
+          <td>{{ order.doctor }}</td>
+          <td>{{ order.service }}</td>
+          <td>{{ order.get_status_display }}</td>
+          <td>{{ order.created_at }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

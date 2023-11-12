@@ -38,3 +38,28 @@ class DoctorListView(ListView):
     model = models.Doctor
     template_name = 'clinic/doctor_list.html'
     context_object_name = 'doctors'
+
+
+class OrderServiceView(View):
+    template_name = 'clinic/order_form.html'
+
+    def get(self, request, *args, **kwargs):
+        form = forms.ServiceOrderForm()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = forms.ServiceOrderForm(request.POST)
+        if form.is_valid():
+            service_order = form.save(commit=False)
+            service_order.customer = request.user
+            service_order.save()
+            return redirect('order_list')  # Redirect to the order list view
+        return render(request, self.template_name, {'form': form})
+
+
+class OrderListView(View):
+    template_name = 'clinic/order_list.html'
+
+    def get(self, request, *args, **kwargs):
+        service_orders = models.ServiceOrder.objects.filter(customer=request.user)
+        return render(request, self.template_name, {'service_orders': service_orders})

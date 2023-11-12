@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load i18n static %}
+{% block content %}
+  <h2>{% trans "order service"|capfirst %}</h2>
+  <form method="post" action="{% url 'order_service' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">{% trans "submit order"|capfirst %}</button>
+  </form>
+{% endblock %}

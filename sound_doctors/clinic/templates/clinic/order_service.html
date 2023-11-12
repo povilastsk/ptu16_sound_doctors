@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load i18n static %}
+{% block content %}
+  <h2>My Orders</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Doctor</th>
+        <th>Service</th>
+        <!-- Add other fields as needed -->
+      </tr>
+    </thead>
+    <tbody>
+      {% for order in service_orders %}
+        <tr>
+          <td>{{ order.doctor }}</td>
+          <td>{{ order.service }}</td>
+          <!-- Add other fields as needed -->
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
