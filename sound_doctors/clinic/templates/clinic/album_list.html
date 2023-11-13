@@ -10,7 +10,7 @@
           {% if album.cover %}
             <img src="{{ album.cover.url }}" alt="{{ album.title }} Cover">
           {% else %}
-            <img src="{% static "img/def_album.jpg" %}" alt="{% trans "Default Album Cover" %}">
+            <img src="{% static "img/default_album.jpg" %}" alt="{% trans "Default Album Cover" %}">
           {% endif %}
           <h2>{{ album.artist }}</h2>
           <p>{{ album.title }}</p>
