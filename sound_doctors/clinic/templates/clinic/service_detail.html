@@ -6,5 +6,24 @@
     <p><strong>{% trans "name"|capfirst %}:</strong> {{ service.name }}</p>
     <p><strong>{% trans "price"|capfirst %}:</strong> {{ service.price }} €</p>
     <p><strong>{% trans "about service"|capfirst %}:</strong> {{ service.about|safe }}</p>
-    
+    <h2>{% trans "reviews"|capfirst %}</h2>
+{% for review in reviews %}
+    <div class="review">
+        <p><strong>{{ review.reviewer.username }}</strong>: {{ review.content }}</p>
+        <p class="timestamp">{% trans "created at:"|capfirst %} {{ review.created_at|date:"F j, Y H:i" }}</p>
+    </div>
+{% endfor %}
+    {% if user.is_authenticated %}
+    <h2>{% trans "post a review"|capfirst %}</h2>
+    <form method="post" action="{% url 'service_detail' pk=service.id %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% for error in form.non_field_errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        <button type="submit">{% trans "Post Review"|capfirst %}</button>
+    </form>
+{% else %}
+    <p>{% trans "Log in to post a review."|capfirst %}</p>
+{% endif %}
 {% endblock content %}

@@ -17,3 +17,9 @@ class ServiceReviewForm(forms.ModelForm):
         labels = {
             'content': '',
         }
+
+    def clean_content(self):
+        content = self.cleaned_data.get('content')
+        if not content:
+            raise forms.ValidationError("Review content cannot be empty.")
+        return content

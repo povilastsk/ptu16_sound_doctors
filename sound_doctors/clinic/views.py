@@ -53,6 +53,27 @@ class ServiceDetailView(DetailView):
     template_name = 'clinic/service_detail.html'
     context_object_name = 'service'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['reviews'] = models.ServiceReview.objects.filter(service=self.object).order_by('-created_at')
+
+        context['form'] = forms.ServiceReviewForm(initial={'service': self.object.id, 'reviewer': self.request.user.id})
+
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = forms.ServiceReviewForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('service_detail', kwargs={'pk': self.kwargs['pk']}))
+        else:
+            # Handle form errors if needed
+            pass
+
+        # If the form is not valid, render the detail view with errors
+        return self.get(request, *args, **kwargs)
+
 
 class DoctorListView(ListView):
     model = models.Doctor
