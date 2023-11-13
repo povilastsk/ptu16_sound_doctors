@@ -1,13 +1,12 @@
 {% extends 'base.html' %}
 {% load i18n static %}
 {% block content %}
-  <h2>My Orders</h2>
+  <h2>{% trans "my orders"|capfirst %}</h2>
   <table>
     <thead>
       <tr>
-        <th>Doctor</th>
-        <th>Service</th>
-        <!-- Add other fields as needed -->
+        <th>{% trans "doctor"|capfirst %}</th>
+        <th>{% trans "service"|capfirst %}</th>
       </tr>
     </thead>
     <tbody>
@@ -15,7 +14,6 @@
         <tr>
           <td>{{ order.doctor }}</td>
           <td>{{ order.service }}</td>
-          <!-- Add other fields as needed -->
         </tr>
       {% endfor %}
     </tbody>

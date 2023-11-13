@@ -29,7 +29,7 @@ class ServiceOrderAdmin(admin.ModelAdmin):
 
 @admin.register(models.ServiceReview)
 class ServiceReviewAdmin(admin.ModelAdmin):
-    list_display = ("doctor", "reviewer", "created_at")
+    list_display = ("service", "reviewer", "created_at")
     list_display_links = ("created_at", )
 
 

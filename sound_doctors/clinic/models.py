@@ -104,11 +104,12 @@ class ServiceOrder(models.Model):
 
 
 class ServiceReview(models.Model):
-    doctor = models.ForeignKey(
-        Doctor, 
-        verbose_name=_("doctor"), 
+    service = models.ForeignKey(
+        Service, 
+        verbose_name=_("service"), 
         on_delete=models.CASCADE,
-        related_name="customer_reviews",
+        related_name="service_reviews",
+        blank=True, null=True
     )
     reviewer = models.ForeignKey(
         User, 
@@ -116,7 +117,7 @@ class ServiceReview(models.Model):
         on_delete=models.CASCADE,
         related_name='barber_reviews',
     )
-    content = models.TextField(_("content"), max_length=4000)
+    content = models.TextField(_("content"), max_length=4000, blank=True, null=True)
     created_at = models.DateTimeField(
         _("created at"), 
         auto_now_add=True, 
@@ -126,6 +127,7 @@ class ServiceReview(models.Model):
     class Meta:
         verbose_name = _("service review")
         verbose_name_plural = _("service reviews")
+        ordering = ['-created_at']
 
     def __str__(self):
         return f"{self.doctor} review by {self.reviewer}"
@@ -142,7 +144,54 @@ class AboutUs(models.Model):
         verbose_name_plural = _("about us")
 
     def __str__(self):
-        return self.content
+        return f"{self.content}"
 
     def get_absolute_url(self):
         return reverse("aboutus_detail", kwargs={"pk": self.pk})
+    
+
+class Album(models.Model):
+    title = models.CharField(_("title"), max_length=250)
+    artist = models.CharField(_("artist"), max_length=250)
+    cover = models.ImageField(_("cover"), upload_to='album_covers', null=True, blank=True)
+
+    class Meta:
+        verbose_name = _("album")
+        verbose_name_plural = _("albums")
+
+    def __str__(self) -> str:
+        return f"{self.artist} - '{self.title}'"
+    
+    def get_absolute_url(self):
+        return reverse("album_detail", kwargs={"pk": self.pk})
+    
+
+class AlbumReview(models.Model):
+    album = models.ForeignKey(
+        Album, 
+        verbose_name=_("album"), 
+        on_delete=models.CASCADE
+    )
+    reviewer = models.ForeignKey(
+        User, 
+        verbose_name=_("reviewer"), 
+        on_delete=models.CASCADE,
+        related_name='book_reviews',
+    )
+    content = models.TextField(_("content"), max_length=4000, blank=True, null=True)
+    created_at = models.DateTimeField(
+        _("created at"), 
+        auto_now_add=True, 
+        db_index=True
+    )
+
+    class Meta:
+        verbose_name = _("album review")
+        verbose_name_plural = _("album reviews")
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.album} review by {self.reviewer}"
+
+    def get_absolute_url(self):
+        return reverse("albumreview_detail", kwargs={"pk": self.pk})
