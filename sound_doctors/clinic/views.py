@@ -1,4 +1,5 @@
 from django.db.models.query import QuerySet
+from django.contrib import messages
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
@@ -21,6 +22,25 @@ def about_us(request):
         {"about_us_content": about_us_content}
     )
 
+@login_required
+def service_review_create(request, service_pk):
+    service = models.Service.objects.get(pk=service_pk)
+
+    if request.method == 'POST':
+        form = forms.ServiceReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.reviewer = request.user
+            review.service = service
+            review.save()
+            messages.success(request, 'Review posted successfully.')
+            return redirect('service_review_create', service_pk=service_pk)
+        else:
+            messages.error(request, 'Error posting review. Please check your form.')
+    else:
+        form = forms.ServiceReviewForm()
+
+    return render(request, 'clinic/service_review_create.html', {'form': form, 'service': service})
 
 class ServiceListView(ListView):
     model = models.Service

@@ -36,6 +36,10 @@ class ServiceReviewAdmin(admin.ModelAdmin):
 class AboutUsAdmin(admin.ModelAdmin):
     list_display = ("content", )
 
+class AlbumAdmin(admin.ModelAdmin):
+    list_display = ("title", "artist")
+    search_fields = ("title", "artist")
+    list_filter = ("title", "artist")
 
 
 admin.site.register(models.Instrument, InstrumentAdmin)
@@ -43,3 +47,4 @@ admin.site.register(models.Doctor, DoctorAdmin)
 admin.site.register(models.Service, ServiceAdmin)
 admin.site.register(models.ServiceOrder, ServiceOrderAdmin)
 admin.site.register(models.AboutUs, AboutUsAdmin)
+admin.site.register(models.Album, AlbumAdmin)

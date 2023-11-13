@@ -7,17 +7,4 @@
     <p>{% trans "your trusted destination for instrument repairs and maintenance"|capfirst %}.</p>
     <a href="{% url 'service_list' %}" class="btn btn-primary">{% trans "see our services"|capfirst %}</a>
   </section>
-
-  <section id="about">
-    <h2>{% trans "about us"|capfirst %}</h2>
-    <p>{% trans "learn about our passionate team of instrument repair experts and our commitment to quality. Click to learn more"|capfirst %}.</p>
-    <a href="{% url 'about_us' %}" class="btn btn-secondary">{% trans "learn lore"|capfirst %}</a>
-  </section>
-
-  <section id="services">
-    <h2>{% trans "our services"|capfirst %}</h2>
-    <p>{% trans "Explore the services we offer to keep your musical instruments in top condition"|capfirst %}.</p>
-    <a href="{% url 'service_list' %}" class="btn btn-secondary">{% trans "view services"|capfirst %}</a>
-  </section>
-</div>
 {% endblock %}
