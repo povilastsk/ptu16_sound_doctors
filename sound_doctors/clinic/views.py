@@ -68,10 +68,7 @@ class ServiceDetailView(DetailView):
             form.save()
             return redirect(reverse('service_detail', kwargs={'pk': self.kwargs['pk']}))
         else:
-            # Handle form errors if needed
             pass
-
-        # If the form is not valid, render the detail view with errors
         return self.get(request, *args, **kwargs)
 
 
@@ -94,7 +91,7 @@ class OrderServiceView(View):
             service_order = form.save(commit=False)
             service_order.customer = request.user
             service_order.save()
-            return redirect('order_list')  # Redirect to the order list view
+            return redirect('order_list')
         return render(request, self.template_name, {'form': form})
 
 
@@ -104,3 +101,31 @@ class OrderListView(View):
     def get(self, request, *args, **kwargs):
         service_orders = models.ServiceOrder.objects.filter(customer=request.user)
         return render(request, self.template_name, {'service_orders': service_orders})
+    
+
+class AlbumListView(ListView):
+    model = models.Album
+    template_name = 'clinic/album_list.html'
+    context_object_name = 'albums'
+
+
+class AlbumDetailView(View):
+    template_name = 'clinic/album_detail.html'
+
+    def get(self, request, *args, **kwargs):
+        album = get_object_or_404(models.Album, pk=kwargs['pk'])
+        reviews = models.AlbumReview.objects.filter(album=album).order_by('-created_at')
+        form = forms.AlbumReviewForm(initial={'album': album.id, 'reviewer': request.user.id}) if request.user.is_authenticated else None
+
+        return render(request, self.template_name, {'album': album, 'reviews': reviews, 'form': form})
+
+    def post(self, request, *args, **kwargs):
+        album = get_object_or_404(models.Album, pk=kwargs['pk'])
+        form = forms.AlbumReviewForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect('album_detail', pk=album.id)
+        
+        reviews = models.AlbumReview.objects.filter(album=album).order_by('-created_at')
+        return render(request, self.template_name, {'album': album, 'reviews': reviews, 'form': form})

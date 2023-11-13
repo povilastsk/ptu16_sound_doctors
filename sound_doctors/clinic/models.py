@@ -170,13 +170,14 @@ class AlbumReview(models.Model):
     album = models.ForeignKey(
         Album, 
         verbose_name=_("album"), 
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name='album_reviews',
     )
     reviewer = models.ForeignKey(
         User, 
         verbose_name=_("reviewer"), 
         on_delete=models.CASCADE,
-        related_name='book_reviews',
+        related_name='album_reviews',
     )
     content = models.TextField(_("content"), max_length=4000, blank=True, null=True)
     created_at = models.DateTimeField(

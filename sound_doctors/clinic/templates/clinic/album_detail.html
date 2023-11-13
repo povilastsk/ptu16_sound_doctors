@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% block content %}
+    <h1>{% trans "album details"|capfirst %}</h1>
+    <div class="album-details">
+        {% if album.cover %}
+            <img src="{{ album.cover.url }}" alt="{{ album.title }} Cover">
+        {% else %}
+            <img src="{% static 'img/def_album.jpg' %}" alt="{% trans 'Default Album Cover' %}">
+        {% endif %}
+        <h2>{{ album.title }}</h2>
+        <p>{{ album.artist }}</p>
+
+        <h3>{% trans "Reviews"|capfirst %}</h3>
+        {% for review in reviews %}
+            <div class="review">
+                <p><strong>{{ review.reviewer.username }}</strong>: {{ review.content }}</p>
+                <p class="timestamp">{% trans "Created at:"|capfirst %} {{ review.created_at|date:"F j, Y H:i" }}</p>
+            </div>
+        {% endfor %}
+
+        {% if user.is_authenticated %}
+            <h3>{% trans "Post a Review"|capfirst %}</h3>
+            <form method="post" action="{% url 'album_detail' pk=album.id %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+                {% for error in form.non_field_errors %}
+                    <p class="error">{{ error }}</p>
+                {% endfor %}
+                <button type="submit">{% trans "Post Review"|capfirst %}</button>
+            </form>
+        {% else %}
+            <p>{% trans "Log in to post a review."|capfirst %}</p>
+        {% endif %}
+    </div>
+{% endblock %}
