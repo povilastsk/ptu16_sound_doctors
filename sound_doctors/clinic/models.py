@@ -87,8 +87,6 @@ class ServiceOrder(models.Model):
         verbose_name=_("doctor"),
         on_delete=models.CASCADE,
         related_name="jobs",
-        null=True,
-        blank=True,
     )
     regular_service = models.ForeignKey(
         RegularService,

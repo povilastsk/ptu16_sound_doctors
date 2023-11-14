@@ -1,51 +1,40 @@
 {% extends 'base.html' %}
-{% load i18n static %}
+{% load static %}
+{% load i18n %}
 {% block content %}
-  <h2>{% trans "my orders"|capfirst %}</h2>
+  <h2>Your Orders</h2>
 
-  <h3>{% trans "Regular Orders"|capfirst %}</h3>
-  <table>
+  <table border="1">
     <thead>
       <tr>
-        <th>{% trans "doctor"|capfirst %}</th>
-        <th>{% trans "service"|capfirst %}</th>
-        <th>{% trans "status"|capfirst %}</th>
-        <th>{% trans "created at"|capfirst %}</th>
+        <th>Doctor</th>
+        <th>Service</th>
+        <th>Instrument</th>
+        <th>Customer</th>
+        <th>Created At</th>
       </tr>
     </thead>
     <tbody>
       {% for order in service_orders_regular %}
         <tr>
           <td>{{ order.doctor }}</td>
-          <td>{{ order.regular_service.name }}</td>
-          <td>{{ order.get_status_display }}</td>
+          <td>{{ order.regular_service }}</td>
+          <td>{{ order.instrument }}</td>
+          <td>{{ order.customer }}</td>
           <td>{{ order.created_at }}</td>
         </tr>
       {% endfor %}
-    </tbody>
-  </table>
-
-  <h3>{% trans "Custom Orders"|capfirst %}</h3>
-  <table>
-    <thead>
-      <tr>
-        <th>{% trans "doctor"|capfirst %}</th>
-        <th>{% trans "instrument"|capfirst %}</th>
-        <th>{% trans "custom text"|capfirst %}</th>
-        <th>{% trans "status"|capfirst %}</th>
-        <th>{% trans "created at"|capfirst %}</th>
-      </tr>
-    </thead>
-    <tbody>
       {% for order in service_orders_custom %}
         <tr>
           <td>{{ order.doctor }}</td>
-          <td>{{ order.instrument.name }} - {{ order.instrument.type }}</td>
-          <td>{{ order.custom_text }}</td>
-          <td>{{ order.get_status_display }}</td>
+          <td>{{ order.custom_service.custom_text }}</td>
+          <td>{{ order.instrument }}</td>
+          <td>{{ order.customer }}</td>
           <td>{{ order.created_at }}</td>
         </tr>
       {% endfor %}
     </tbody>
   </table>
 {% endblock %}
+
+

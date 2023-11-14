@@ -5,29 +5,41 @@ from django.utils.translation import gettext_lazy as _
 class RegularServiceOrderForm(forms.ModelForm):
     class Meta:
         model = models.ServiceOrder
-        fields = ['doctor', 'regular_service', 'status']
-        
+        fields = ['doctor', 'regular_service']
+
+    def __init__(self, *args, **kwargs):
+        super(RegularServiceOrderForm, self).__init__(*args, **kwargs)
+        # Limit doctor choices to those available to the user
+        self.fields['doctor'].queryset = models.Doctor.objects.all()
+
+    def clean(self):
+        cleaned_data = super().clean()
+        regular_service = cleaned_data.get('regular_service')
+
+        # Check if regular_service is provided for a regular order
+        if not regular_service:
+            raise forms.ValidationError(_('Please select a regular service.'))
+        return cleaned_data
 
 class CustomServiceOrderForm(forms.ModelForm):
-    instrument = forms.ModelChoiceField(
-        queryset= models.Instrument.objects.all(),
-        label=_("Instrument"),
+    custom_text = forms.CharField(
+        label=_("Custom Text"),
+        widget=forms.Textarea(attrs={'rows': 4}),
         required=False
     )
 
     class Meta:
         model = models.ServiceOrder
-        fields = ['doctor', 'custom_service', 'instrument', 'status']
+        fields = ['doctor', 'custom_service', 'instrument', 'custom_text']
 
     def clean(self):
         cleaned_data = super().clean()
         custom_service = cleaned_data.get('custom_service')
         custom_text = cleaned_data.get('custom_text')
-        custom_img = cleaned_data.get('custom_img')
 
-        # Check if either custom_text or custom_img is provided for a custom order
-        if not custom_service and not (custom_text or custom_img):
-            raise forms.ValidationError(_('Either select a regular service or provide custom details for a custom order.'))
+        # Check if either custom_service or custom_text is provided for a custom order
+        if not custom_service and not custom_text:
+            raise forms.ValidationError(_('Please select a custom service or provide custom details.'))
         return cleaned_data
 
 
