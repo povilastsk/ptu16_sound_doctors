@@ -40,13 +40,13 @@ def service_review_create(request, service_pk):
     return render(request, 'clinic/service_review_create.html', {'form': form, 'service': service})
 
 class ServiceListView(ListView):
-    model = models.Service
+    model = models.RegularService
     template_name = 'clinic/service_list.html'
     context_object_name = 'services'
 
 
 class ServiceDetailView(DetailView):
-    model = models.Service
+    model = models.RegularService
     template_name = 'clinic/service_detail.html'
     context_object_name = 'service'
 
@@ -75,43 +75,38 @@ class DoctorListView(ListView):
     context_object_name = 'doctors'
 
 
+@method_decorator(login_required, name='dispatch')
 class OrderServiceView(View):
     template_name = 'clinic/order_form.html'
 
     def get(self, request, *args, **kwargs):
-        form = forms.ServiceOrderForm()
-        return render(request, self.template_name, {'form': form})
+        regular_service_form = forms.RegularServiceOrderForm()
+        custom_service_form = forms.CustomServiceOrderForm()
+
+        return render(request, self.template_name, {
+            'regular_service_form': regular_service_form,
+            'custom_service_form': custom_service_form,
+        })
 
     def post(self, request, *args, **kwargs):
-        form = forms.ServiceOrderForm(request.POST, request.FILES)
+        order_type = request.POST.get('order_type')
+        regular_service_form = forms.RegularServiceOrderForm(request.POST)
+        custom_service_form = forms.CustomServiceOrderForm(request.POST)
 
-        if form.is_valid():
-            order_type = request.POST.get('order_type')
-            custom_text = form.cleaned_data['custom_text']
-            custom_img = form.cleaned_data['custom_img']
-            doctor = form.cleaned_data['doctor']
-
-            if order_type == 'custom':
-                custom_order = models.CustomServiceOrder(
-                    custom_text=custom_text,
-                    custom_img=custom_img,
-                    doctor=doctor,
-                    customer=request.user
-                )
-                custom_order.save()
-            else:
-                # Regular order, include the service field only if it's present in the form data
-                regular_order = models.ServiceOrder(
-                    doctor=doctor,
-                    customer=request.user
-                )
-                if 'service' in form.cleaned_data:
-                    regular_order.service = form.cleaned_data['service']
-                regular_order.save()
-
+        if order_type == 'regular' and regular_service_form.is_valid():
+            regular_service_form.instance.customer = request.user
+            regular_service_form.save()
             return redirect('order_list')
 
-        return render(request, self.template_name, {'form': form})
+        elif order_type == 'custom' and custom_service_form.is_valid():
+            custom_service_form.instance.customer = request.user
+            custom_service_form.save()
+            return redirect('order_list')
+
+        return render(request, self.template_name, {
+            'regular_service_form': regular_service_form,
+            'custom_service_form': custom_service_form,
+        })
 
 
 @method_decorator(login_required, name='dispatch')
@@ -119,15 +114,15 @@ class OrderListView(View):
     template_name = 'clinic/order_list.html'
 
     def get(self, request, *args, **kwargs):
-        # Fetch regular and custom service orders
-        service_orders_regular = models.ServiceOrder.objects.filter(customer=request.user)
-        service_orders_custom = models.CustomServiceOrder.objects.filter(customer=request.user)
+        service_orders_regular = models.ServiceOrder.objects.filter(customer=request.user, custom_service__isnull=True)
+        service_orders_custom = models.ServiceOrder.objects.filter(customer=request.user, regular_service__isnull=True)
 
         return render(request, self.template_name, {
             'service_orders_regular': service_orders_regular,
             'service_orders_custom': service_orders_custom,
         })
-
+    
+    
 class AlbumListView(ListView):
     model = models.Album
     template_name = 'clinic/album_list.html'

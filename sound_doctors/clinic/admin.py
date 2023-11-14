@@ -19,9 +19,16 @@ class ServiceAdmin(admin.ModelAdmin):
     search_fields = ("name", )
     list_filter = ("name", )
 
+class RegularServiceAdmin(admin.ModelAdmin):
+    list_display = ("name", "price", "about")
+    search_fields = ("name", )
+    list_filter = ("name", )
+
+class CustomServiceAdmin(admin.ModelAdmin):
+    list_display = ("custom_text", )
 
 class ServiceOrderAdmin(admin.ModelAdmin):
-    list_display = ("doctor", "service", "customer", "status", "created_at")
+    list_display = ("doctor", "regular_service", "customer", "status", "created_at")
     search_fields = ("doctor__last_name", "service__name", "customer__username")
     list_filter = ("doctor__specialization", "status")
     readonly_fields = ("id", )
@@ -44,7 +51,8 @@ class AlbumAdmin(admin.ModelAdmin):
 
 admin.site.register(models.Instrument, InstrumentAdmin)
 admin.site.register(models.Doctor, DoctorAdmin)
-admin.site.register(models.Service, ServiceAdmin)
+admin.site.register(models.RegularService, RegularServiceAdmin)
+admin.site.register(models.CustomService, CustomServiceAdmin)
 admin.site.register(models.ServiceOrder, ServiceOrderAdmin)
 admin.site.register(models.AboutUs, AboutUsAdmin)
 admin.site.register(models.Album, AlbumAdmin)

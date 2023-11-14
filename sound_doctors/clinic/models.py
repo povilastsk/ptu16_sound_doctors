@@ -4,9 +4,6 @@ from django.urls import reverse
 from django.contrib.auth import get_user_model
 from tinymce.models import HTMLField
 from django.contrib.auth.models import User
-from PIL import Image
-from io import BytesIO
-from django.core.files.uploadedfile import InMemoryUploadedFile
 
 
 User = get_user_model()
@@ -44,21 +41,37 @@ class Doctor(models.Model):
 
     def get_absolute_url(self):
         return reverse("doctor_detail", kwargs={"pk": self.pk})
+    
 
-class Service(models.Model):
+class RegularService(models.Model):
     name = models.CharField(_("name"), max_length=250)
     price = models.DecimalField(_("price"), max_digits=18, decimal_places=2)
-    about = HTMLField(_("about"), max_length=10000, default='', blank=True)
-    
+    about = models.TextField(_("about"), max_length=10000, default='', blank=True)
+
     class Meta:
-        verbose_name = _("service")
-        verbose_name_plural = _("services")
+        verbose_name = _("regular service")
+        verbose_name_plural = _("regular services")
 
     def __str__(self):
         return f"{self.name} {self.price} {self.about}"
 
-    def get_absolute_url(self):
-        return reverse("service_detail", kwargs={"pk": self.pk})
+
+class CustomService(models.Model):
+    custom_text = models.TextField(_("custom_text"), max_length=500, default='', blank=True)
+    custom_img = models.ImageField(_("custom_img"), upload_to='custom_img', null=True, blank=True)
+    instrument = models.ForeignKey(
+        Instrument, 
+        verbose_name=_("instrument"), 
+        on_delete=models.SET_NULL,
+        null=True, blank=True
+    )
+
+    class Meta:
+        verbose_name = _("custom service")
+        verbose_name_plural = _("custom services")
+
+    def __str__(self):
+        return f"Custom Service: {self.custom_text}"
     
 
 SERVICEORDER_STATUS = (
@@ -77,11 +90,25 @@ class ServiceOrder(models.Model):
         null=True,
         blank=True,
     )
-    service = models.ForeignKey(
-        Service,
-        verbose_name=_("service"),
+    regular_service = models.ForeignKey(
+        RegularService,
+        verbose_name=_("regular service"),
         on_delete=models.CASCADE,
-        null=False,  # Change this line
+        null=True,
+        blank=True,
+    )
+    custom_service = models.ForeignKey(
+        CustomService,
+        verbose_name=_("custom service"),
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
+    instrument = models.ForeignKey(
+        Instrument,
+        verbose_name=_("instrument"),
+        on_delete=models.CASCADE,
+        null=True,
         blank=True,
     )
     customer = models.ForeignKey(
@@ -96,46 +123,11 @@ class ServiceOrder(models.Model):
         default=0,
     )
     created_at = models.DateTimeField(_("created_at"), auto_now=False, auto_now_add=True)
-    
-
-class CustomServiceOrder(ServiceOrder):
-    custom_text = HTMLField(_("custom_text"), max_length=500, default='', blank=True)
-    custom_img = models.ImageField(_("custom_img"), upload_to='custom_img', null=True, blank=True)
-
-    class Meta:
-        verbose_name = _("custom service order")
-        verbose_name_plural = _("custom service orders")
-
-    def __str__(self):
-        return f"{self.doctor} {self.customer} (Custom Order)"
-
-    def get_absolute_url(self):
-        return reverse("customserviceorder_detail", kwargs={"pk": self.pk})
-
-    def save(self, *args, **kwargs):
-        if self.custom_img:
-            img = Image.open(self.custom_img)
-            img.thumbnail((300, 300), Image.ANTIALIAS)
-            image_io = BytesIO()
-            img.save(image_io, format='JPEG')
-            self.custom_img = InMemoryUploadedFile(
-                image_io,
-                'ImageField',
-                f"{self.custom_img.name.split('.')[0]}_resized.jpg",
-                'image/jpeg',
-                image_io.tell,
-                None
-            )
-
-        if isinstance(self, CustomServiceOrder):
-            self.service = None
-
-        super().save(*args, **kwargs)
 
 
 class ServiceReview(models.Model):
     service = models.ForeignKey(
-        Service, 
+        RegularService, 
         verbose_name=_("service"), 
         on_delete=models.CASCADE,
         related_name="service_reviews",
@@ -160,7 +152,7 @@ class ServiceReview(models.Model):
         ordering = ['-created_at']
 
     def __str__(self):
-        return f"{self.doctor} review by {self.reviewer}"
+        return f"{self.service} review by {self.reviewer}"
 
     def get_absolute_url(self):
         return reverse("servicereview_detail", kwargs={"pk": self.pk})

@@ -2,33 +2,31 @@ from django import forms
 from . import models
 from django.utils.translation import gettext_lazy as _
 
-class ServiceOrderForm(forms.ModelForm):
+class RegularServiceOrderForm(forms.ModelForm):
     class Meta:
         model = models.ServiceOrder
-        fields = ['service', 'doctor']
+        fields = ['doctor', 'regular_service', 'status']
+        
 
-
-class ServiceOrderForm(forms.ModelForm):
-    custom_text = forms.CharField(label=_("Custom Order Details"), required=False, widget=forms.Textarea(attrs={'rows': 4, 'cols': 40}))
-    custom_img = forms.ImageField(label=_("Image (optional)"), required=False)
-    service = forms.ModelChoiceField(
-        queryset=models.Service.objects.all(),
-        label=_("Service"),
-        required=False  # Service field is not required for a custom order
+class CustomServiceOrderForm(forms.ModelForm):
+    instrument = forms.ModelChoiceField(
+        queryset= models.Instrument.objects.all(),
+        label=_("Instrument"),
+        required=False
     )
 
     class Meta:
         model = models.ServiceOrder
-        fields = ['service', 'doctor']
+        fields = ['doctor', 'custom_service', 'instrument', 'status']
 
     def clean(self):
         cleaned_data = super().clean()
-        service = cleaned_data.get('service')
+        custom_service = cleaned_data.get('custom_service')
         custom_text = cleaned_data.get('custom_text')
         custom_img = cleaned_data.get('custom_img')
 
         # Check if either custom_text or custom_img is provided for a custom order
-        if not service and not (custom_text or custom_img):
+        if not custom_service and not (custom_text or custom_img):
             raise forms.ValidationError(_('Either select a regular service or provide custom details for a custom order.'))
         return cleaned_data
 

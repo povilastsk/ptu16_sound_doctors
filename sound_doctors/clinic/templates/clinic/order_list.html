@@ -17,7 +17,7 @@
       {% for order in service_orders_regular %}
         <tr>
           <td>{{ order.doctor }}</td>
-          <td>{{ order.service }}</td>
+          <td>{{ order.regular_service.name }}</td>
           <td>{{ order.get_status_display }}</td>
           <td>{{ order.created_at }}</td>
         </tr>
@@ -30,6 +30,7 @@
     <thead>
       <tr>
         <th>{% trans "doctor"|capfirst %}</th>
+        <th>{% trans "instrument"|capfirst %}</th>
         <th>{% trans "custom text"|capfirst %}</th>
         <th>{% trans "status"|capfirst %}</th>
         <th>{% trans "created at"|capfirst %}</th>
@@ -39,6 +40,7 @@
       {% for order in service_orders_custom %}
         <tr>
           <td>{{ order.doctor }}</td>
+          <td>{{ order.instrument.name }} - {{ order.instrument.type }}</td>
           <td>{{ order.custom_text }}</td>
           <td>{{ order.get_status_display }}</td>
           <td>{{ order.created_at }}</td>
@@ -46,5 +48,4 @@
       {% endfor %}
     </tbody>
   </table>
-
 {% endblock %}
