@@ -1,14 +1,11 @@
-from django.db.models.query import QuerySet
-from django.contrib import messages
-from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render, redirect, get_object_or_404
-from django.views import generic
 from . import models, forms
-from django.views.generic import ListView, DetailView
-from django.views.generic.edit import CreateView
-from django.urls import reverse, reverse_lazy
-from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.shortcuts import render, redirect, get_object_or_404
+from django.utils.decorators import method_decorator
+from django.utils.translation import gettext_lazy as _
+from django.urls import reverse
+from django.views.generic import ListView, DetailView
 from django.views.generic import View
 
 def index(request):
@@ -86,22 +83,50 @@ class OrderServiceView(View):
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
-        form = forms.ServiceOrderForm(request.POST)
+        form = forms.ServiceOrderForm(request.POST, request.FILES)
+
         if form.is_valid():
-            service_order = form.save(commit=False)
-            service_order.customer = request.user
-            service_order.save()
+            order_type = request.POST.get('order_type')
+            custom_text = form.cleaned_data['custom_text']
+            custom_img = form.cleaned_data['custom_img']
+            doctor = form.cleaned_data['doctor']
+
+            if order_type == 'custom':
+                custom_order = models.CustomServiceOrder(
+                    custom_text=custom_text,
+                    custom_img=custom_img,
+                    doctor=doctor,
+                    customer=request.user
+                )
+                custom_order.save()
+            else:
+                # Regular order, include the service field only if it's present in the form data
+                regular_order = models.ServiceOrder(
+                    doctor=doctor,
+                    customer=request.user
+                )
+                if 'service' in form.cleaned_data:
+                    regular_order.service = form.cleaned_data['service']
+                regular_order.save()
+
             return redirect('order_list')
+
         return render(request, self.template_name, {'form': form})
 
 
+@method_decorator(login_required, name='dispatch')
 class OrderListView(View):
     template_name = 'clinic/order_list.html'
 
     def get(self, request, *args, **kwargs):
-        service_orders = models.ServiceOrder.objects.filter(customer=request.user)
-        return render(request, self.template_name, {'service_orders': service_orders})
-    
+        # Fetch regular and custom service orders
+        service_orders_regular = models.ServiceOrder.objects.filter(customer=request.user)
+        service_orders_custom = models.CustomServiceOrder.objects.filter(customer=request.user)
+
+        return render(request, self.template_name, {
+            'service_orders_regular': service_orders_regular,
+            'service_orders_custom': service_orders_custom,
+        })
 
 class AlbumListView(ListView):
     model = models.Album

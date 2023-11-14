@@ -4,6 +4,9 @@ from django.urls import reverse
 from django.contrib.auth import get_user_model
 from tinymce.models import HTMLField
 from django.contrib.auth.models import User
+from PIL import Image
+from io import BytesIO
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 
 User = get_user_model()
@@ -77,7 +80,9 @@ class ServiceOrder(models.Model):
     service = models.ForeignKey(
         Service,
         verbose_name=_("service"),
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        null=False,  # Change this line
+        blank=True,
     )
     customer = models.ForeignKey(
         User,
@@ -91,16 +96,41 @@ class ServiceOrder(models.Model):
         default=0,
     )
     created_at = models.DateTimeField(_("created_at"), auto_now=False, auto_now_add=True)
+    
+
+class CustomServiceOrder(ServiceOrder):
+    custom_text = HTMLField(_("custom_text"), max_length=500, default='', blank=True)
+    custom_img = models.ImageField(_("custom_img"), upload_to='custom_img', null=True, blank=True)
 
     class Meta:
-        verbose_name = _("service order")
-        verbose_name_plural = _("service orders")
+        verbose_name = _("custom service order")
+        verbose_name_plural = _("custom service orders")
 
     def __str__(self):
-        return f"{self.doctor} {self.service} {self.customer}"
+        return f"{self.doctor} {self.customer} (Custom Order)"
 
     def get_absolute_url(self):
-        return reverse("serviceorder_detail", kwargs={"pk": self.pk})
+        return reverse("customserviceorder_detail", kwargs={"pk": self.pk})
+
+    def save(self, *args, **kwargs):
+        if self.custom_img:
+            img = Image.open(self.custom_img)
+            img.thumbnail((300, 300), Image.ANTIALIAS)
+            image_io = BytesIO()
+            img.save(image_io, format='JPEG')
+            self.custom_img = InMemoryUploadedFile(
+                image_io,
+                'ImageField',
+                f"{self.custom_img.name.split('.')[0]}_resized.jpg",
+                'image/jpeg',
+                image_io.tell,
+                None
+            )
+
+        if isinstance(self, CustomServiceOrder):
+            self.service = None
+
+        super().save(*args, **kwargs)
 
 
 class ServiceReview(models.Model):

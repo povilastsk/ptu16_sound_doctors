@@ -2,9 +2,30 @@
 {% load i18n static %}
 {% block content %}
   <h2>{% trans "order service"|capfirst %}</h2>
-  <form method="post" action="{% url 'order_service' %}">
+  <form method="post" action="{% url 'order_service' %}" enctype="multipart/form-data" id="orderForm">
     {% csrf_token %}
+
+    <label for="order_type">{% trans "Order Type"|capfirst %}:</label>
+    <select name="order_type" id="order_type">
+      <option value="regular">{% trans "Regular Order"|capfirst %}</option>
+      <option value="custom">{% trans "Custom Order"|capfirst %}</option>
+    </select>
+
     {{ form.as_p }}
     <button type="submit">{% trans "submit order"|capfirst %}</button>
   </form>
+
+  <script>
+    // Script to toggle the visibility and required status of the service field
+    document.getElementById('order_type').addEventListener('change', function () {
+        var serviceField = document.getElementById('id_service');
+        if (this.value === 'custom') {
+            serviceField.style.display = 'none';
+            serviceField.removeAttribute('required');
+        } else {
+            serviceField.style.display = 'block';
+            serviceField.setAttribute('required', 'required');
+        }
+    });
+</script>
 {% endblock %}
