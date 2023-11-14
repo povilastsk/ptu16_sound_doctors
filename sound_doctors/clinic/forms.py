@@ -9,14 +9,12 @@ class RegularServiceOrderForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(RegularServiceOrderForm, self).__init__(*args, **kwargs)
-        # Limit doctor choices to those available to the user
         self.fields['doctor'].queryset = models.Doctor.objects.all()
 
     def clean(self):
         cleaned_data = super().clean()
         regular_service = cleaned_data.get('regular_service')
 
-        # Check if regular_service is provided for a regular order
         if not regular_service:
             raise forms.ValidationError(_('Please select a regular service.'))
         return cleaned_data
@@ -37,7 +35,6 @@ class CustomServiceOrderForm(forms.ModelForm):
         custom_service = cleaned_data.get('custom_service')
         custom_text = cleaned_data.get('custom_text')
 
-        # Check if either custom_service or custom_text is provided for a custom order
         if not custom_service and not custom_text:
             raise forms.ValidationError(_('Please select a custom service or provide custom details.'))
         return cleaned_data

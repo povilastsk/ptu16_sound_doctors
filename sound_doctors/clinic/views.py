@@ -94,16 +94,12 @@ class OrderServiceView(View):
         custom_service_form = forms.CustomServiceOrderForm(request.POST)
 
         if order_type == 'regular' and regular_service_form.is_valid():
-            # Associate the user (customer) with the form
             regular_service_form.instance.customer = request.user
-            # Save the form with the correct doctor
             regular_service_form.save()
             return redirect('order_list')
 
         elif order_type == 'custom' and custom_service_form.is_valid():
-            # Associate the user (customer) with the form
             custom_service_form.instance.customer = request.user
-            # Save the form
             custom_service_form.save()
             return redirect('order_list')
 

@@ -16,7 +16,6 @@
     <div id="regular_order_form">
       {{ regular_service_form.as_p }}
       
-      <!-- Add the doctor field for regular orders -->
       <label for="doctor">Doctor:</label>
       <select name="doctor" id="doctor">
         {% for doctor in doctors %}
