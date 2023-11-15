@@ -148,7 +148,7 @@ class AlbumDetailView(View):
         album = get_object_or_404(models.Album, pk=kwargs['pk'])
         reviews = models.AlbumReview.objects.filter(album=album).order_by('-created_at')
         review_form = forms.AlbumReviewForm(initial={'album': album.id, 'reviewer': request.user.id}) if request.user.is_authenticated else None
-        album_sale_form = forms.AlbumSaleForm(initial={'album': album.id, 'status': 0})
+        album_sale_form = forms.AlbumSaleForm()
 
         return render(request, self.template_name, {'album': album, 'reviews': reviews, 'review_form': review_form, 'album_sale_form': album_sale_form})
 
@@ -168,13 +168,25 @@ class AlbumDetailView(View):
             if album_sale_form.is_valid():
                 album_sale = album_sale_form.save(commit=False)
                 album_sale.customer = request.user
+                album_sale.album = album
                 album_sale.save()
+
+                return redirect('album_order_list')
+            else:
+                reviews = models.AlbumReview.objects.filter(album=album).order_by('-created_at')
+                return render(request, self.template_name, {'album': album, 'reviews': reviews, 'review_form': review_form, 'album_sale_form': album_sale_form})
 
         return redirect('album_detail', pk=album.id)
     
 
 @method_decorator(login_required, name='dispatch')
-class AlbumSaleView(View):
+class AlbumOrderListView(View):
+    template_name = 'clinic/album_order_list.html'
+
+    def get(self, request, *args, **kwargs):
+        album_sales = models.AlbumSale.objects.filter(customer=request.user)
+        return render(request, self.template_name, {'album_sales': album_sales})
+
     def post(self, request, *args, **kwargs):
         form = forms.AlbumSaleForm(request.POST)
         album = get_object_or_404(models.Album, pk=kwargs.get('pk'))
@@ -184,9 +196,34 @@ class AlbumSaleView(View):
             album_sale.customer = request.user
             album_sale.album = album
             album_sale.save()
-            return redirect('clinic:order_list') 
+            return redirect('album_order_list')
 
-        return redirect('clinic:order_list')
+        album_sales = models.AlbumSale.objects.filter(customer=request.user)
+        return render(request, self.template_name, {'album_sales': album_sales})
+    
+class AlbumSaleView(View):
+    template_name = 'clinic/album_detail.html'
+
+    def get(self, request, *args, **kwargs):
+        album_id = kwargs.get('pk')
+        album = get_object_or_404(models.Album, pk=album_id)
+        album_sale_form = forms.AlbumSaleForm(initial={'album': album})
+        return render(request, self.template_name, {'album': album, 'album_sale_form': album_sale_form})
+
+    def post(self, request, *args, **kwargs):
+        album_id = kwargs.get('pk')
+        album = get_object_or_404(models.Album, pk=album_id)
+        album_sale_form = forms.AlbumSaleForm(request.POST)
+
+        if album_sale_form.is_valid():
+            album_sale = album_sale_form.save(commit=False)
+            album_sale.customer = request.user
+            album_sale.album = album
+            album_sale.save()
+
+            return redirect('album_order_list')
+        else:
+            return render(request, self.template_name, {'album': album, 'album_sale_form': album_sale_form})
         
 
 @method_decorator(login_required, name='dispatch')
@@ -196,10 +233,19 @@ class CancelAlbumPurchaseView(View):
         try:
             album_sale = models.AlbumSale.objects.get(id=album_sale_id, customer=request.user)
             if album_sale.status == 0:
-
-                album_sale.status = 2  
+                album_sale.status = 2
                 album_sale.save()
-            album_sale.save()
         except models.AlbumSale.DoesNotExist:
             pass
-        return redirect('order_list')
+        return redirect('album_order_list')
+    
+    def post(self, request, *args, **kwargs):
+        album_sale_id = kwargs.get('album_sale_id')
+        try:
+            album_sale = models.AlbumSale.objects.get(id=album_sale_id, customer=request.user)
+            if album_sale.status == 0:
+                album_sale.status = 2
+                album_sale.save()
+        except models.AlbumSale.DoesNotExist:
+            pass
+        return redirect('album_order_list')
