@@ -109,6 +109,7 @@ class ServiceOrder(models.Model):
         null=True,
         blank=True,
     )
+    custom_text = models.TextField(_("custom text"), max_length=500, default='', blank=True)
     customer = models.ForeignKey(
         User,
         verbose_name=_("customer"),
