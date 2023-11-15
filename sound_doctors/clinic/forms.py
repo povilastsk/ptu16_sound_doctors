@@ -76,3 +76,9 @@ class AlbumReviewForm(forms.ModelForm):
         if not content:
             raise forms.ValidationError("Review content cannot be empty.")
         return content
+    
+
+class AlbumSaleForm(forms.ModelForm):
+    class Meta:
+        model = models.AlbumSale
+        fields = ['album']

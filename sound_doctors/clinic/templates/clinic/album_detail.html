@@ -2,7 +2,7 @@
 {% load static %}
 {% load i18n %}
 {% block content %}
-    <h1>{% trans "album details"|capfirst %}</h1>
+    <h1>{% trans "Album Details"|capfirst %}</h1>
     <div class="album-details">
         {% if album.cover %}
             <img src="{{ album.cover.url }}" alt="{{ album.title }} Cover">
@@ -21,17 +21,20 @@
         {% endfor %}
 
         {% if user.is_authenticated %}
-            <h3>{% trans "Post a Review"|capfirst %}</h3>
-            <form method="post" action="{% url 'album_detail' pk=album.id %}">
-                {% csrf_token %}
-                {{ form.as_p }}
-                {% for error in form.non_field_errors %}
-                    <p class="error">{{ error }}</p>
-                {% endfor %}
-                <button type="submit">{% trans "Post Review"|capfirst %}</button>
-            </form>
+        <h3>{% trans "Post a Review"|capfirst %}</h3>
+        <form method="post" action="{% url 'album_detail' pk=album.id %}">
+            {% csrf_token %}
+            {{ review_form.as_p }}
+            <button type="submit" name="review_submit">{% trans "Post Review"|capfirst %}</button>
+        </form>
+        <h3>{% trans "Buy this Album"|capfirst %}</h3>
+        <form method="post" action="{% url 'album_detail' pk=album.id %}">
+            {% csrf_token %}
+            {{ album_sale_form.as_p }}
+            <button type="submit" name="buy_now">{% trans "Buy Now"|capfirst %}</button>
+        </form>
         {% else %}
-            <p>{% trans "Log in to post a review."|capfirst %}</p>
+            <p>{% trans "Log in to post a review or buy the album."|capfirst %}</p>
         {% endif %}
     </div>
 {% endblock %}

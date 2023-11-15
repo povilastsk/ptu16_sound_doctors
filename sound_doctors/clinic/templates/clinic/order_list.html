@@ -61,4 +61,25 @@
       {% endfor %}
     </tbody>
   </table>
+  <h2>Album Purchases</h2>
+  <table>
+      <thead>
+          <tr>
+              <th>Customer</th>
+              <th>Status</th>
+              <th>Album Title</th>
+              <th>Artist</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for album_sale in album_sales %}
+              <tr>
+                  <td>{{ album_sale.customer.username }}</td>
+                  <td>{{ album_sale.get_status_display }}</td>
+                  <td>{{ album_sale.album.title }}</td>
+                  <td>{{ album_sale.album.artist }}</td>
+              </tr>
+          {% endfor %}
+      </tbody>
+  </table>
 {% endblock %}

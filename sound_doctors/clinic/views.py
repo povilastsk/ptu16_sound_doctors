@@ -119,7 +119,6 @@ class OrderListView(View):
 
     def get(self, request, *args, **kwargs):
         service_orders = models.ServiceOrder.objects.filter(customer=request.user)
-
         return render(request, self.template_name, {
             'service_orders': service_orders,
         })
@@ -129,13 +128,9 @@ class CancelOrderView(View):
 
     def post(self, request, order_id, *args, **kwargs):
         order = get_object_or_404(models.ServiceOrder, id=order_id, customer=request.user)
-
-
         if order.status == 0:
-
             order.status = 2  
             order.save()
-
         return redirect('order_list')
     
     
@@ -145,23 +140,66 @@ class AlbumListView(ListView):
     context_object_name = 'albums'
 
 
+@method_decorator(login_required, name='dispatch')
 class AlbumDetailView(View):
     template_name = 'clinic/album_detail.html'
 
     def get(self, request, *args, **kwargs):
         album = get_object_or_404(models.Album, pk=kwargs['pk'])
         reviews = models.AlbumReview.objects.filter(album=album).order_by('-created_at')
-        form = forms.AlbumReviewForm(initial={'album': album.id, 'reviewer': request.user.id}) if request.user.is_authenticated else None
+        review_form = forms.AlbumReviewForm(initial={'album': album.id, 'reviewer': request.user.id}) if request.user.is_authenticated else None
+        album_sale_form = forms.AlbumSaleForm(initial={'album': album.id, 'status': 0})
 
-        return render(request, self.template_name, {'album': album, 'reviews': reviews, 'form': form})
+        return render(request, self.template_name, {'album': album, 'reviews': reviews, 'review_form': review_form, 'album_sale_form': album_sale_form})
 
     def post(self, request, *args, **kwargs):
         album = get_object_or_404(models.Album, pk=kwargs['pk'])
-        form = forms.AlbumReviewForm(request.POST)
+        review_form = forms.AlbumReviewForm(request.POST)
+        album_sale_form = forms.AlbumSaleForm(request.POST)
+
+        if 'review_submit' in request.POST:
+            if review_form.is_valid():
+                review_form.save()
+            else:
+                reviews = models.AlbumReview.objects.filter(album=album).order_by('-created_at')
+                return render(request, self.template_name, {'album': album, 'reviews': reviews, 'review_form': review_form, 'album_sale_form': album_sale_form})
+
+        elif 'buy_now' in request.POST:
+            if album_sale_form.is_valid():
+                album_sale = album_sale_form.save(commit=False)
+                album_sale.customer = request.user
+                album_sale.save()
+
+        return redirect('album_detail', pk=album.id)
+    
+
+@method_decorator(login_required, name='dispatch')
+class AlbumSaleView(View):
+    def post(self, request, *args, **kwargs):
+        form = forms.AlbumSaleForm(request.POST)
+        album = get_object_or_404(models.Album, pk=kwargs.get('pk'))
 
         if form.is_valid():
-            form.save()
-            return redirect('album_detail', pk=album.id)
+            album_sale = form.save(commit=False)
+            album_sale.customer = request.user
+            album_sale.album = album
+            album_sale.save()
+            return redirect('clinic:order_list') 
+
+        return redirect('clinic:order_list')
         
-        reviews = models.AlbumReview.objects.filter(album=album).order_by('-created_at')
-        return render(request, self.template_name, {'album': album, 'reviews': reviews, 'form': form})
+
+@method_decorator(login_required, name='dispatch')
+class CancelAlbumPurchaseView(View):
+    def get(self, request, *args, **kwargs):
+        album_sale_id = kwargs.get('album_sale_id')
+        try:
+            album_sale = models.AlbumSale.objects.get(id=album_sale_id, customer=request.user)
+            if album_sale.status == 0:
+
+                album_sale.status = 2  
+                album_sale.save()
+            album_sale.save()
+        except models.AlbumSale.DoesNotExist:
+            pass
+        return redirect('order_list')

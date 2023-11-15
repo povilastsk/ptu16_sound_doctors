@@ -217,3 +217,23 @@ class AlbumReview(models.Model):
 
     def get_absolute_url(self):
         return reverse("albumreview_detail", kwargs={"pk": self.pk})
+
+
+class AlbumSale(models.Model):
+    album = models.ForeignKey(
+        Album,
+        verbose_name=_("album"),
+        on_delete=models.CASCADE,
+    )
+    customer = models.ForeignKey(
+        User,
+        verbose_name=_("customer"),
+        on_delete=models.CASCADE,
+        related_name="album_sales",
+    )
+    status = models.PositiveSmallIntegerField(
+        _("status"),
+        choices=SERVICEORDER_STATUS,
+        default=0,
+    )
+    created_at = models.DateTimeField(_("created_at"), auto_now=False, auto_now_add=True)
