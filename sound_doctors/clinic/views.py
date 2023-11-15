@@ -1,5 +1,6 @@
 from . import models, forms
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.decorators import method_decorator
@@ -75,39 +76,41 @@ class DoctorListView(ListView):
     context_object_name = 'doctors'
 
 
-@method_decorator(login_required, name='dispatch')
-class OrderServiceView(View):
-    template_name = 'clinic/order_form.html'
+class RegularServiceOrderView(LoginRequiredMixin, View):
+    template_name = 'clinic/regular_service_order.html'
+    login_url = 'user_profile/login'
 
     def get(self, request, *args, **kwargs):
-        regular_service_form = forms.RegularServiceOrderForm()
-        custom_service_form = forms.CustomServiceOrderForm()
-
-        return render(request, self.template_name, {
-            'regular_service_form': regular_service_form,
-            'custom_service_form': custom_service_form,
-        })
+        form = forms.RegularServiceOrderForm()
+        return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
-        order_type = request.POST.get('order_type')
-        regular_service_form = forms.RegularServiceOrderForm(request.POST)
-        custom_service_form = forms.CustomServiceOrderForm(request.POST)
-
-        if order_type == 'regular' and regular_service_form.is_valid():
-            regular_service_form.instance.customer = request.user
-            regular_service_form.save()
+        form = forms.RegularServiceOrderForm(request.POST)
+        if form.is_valid():
+            regular_service_order = form.save(commit=False)
+            regular_service_order.customer = request.user
+            regular_service_order.save()
             return redirect('order_list')
 
-        elif order_type == 'custom' and custom_service_form.is_valid():
-            custom_service_form.instance.customer = request.user
-            custom_service_form.save()
+        return render(request, self.template_name, {'form': form})
+
+class CustomServiceOrderView(LoginRequiredMixin, View):
+    template_name = 'clinic/custom_service_order.html'
+    login_url = 'user_profile/login'
+
+    def get(self, request, *args, **kwargs):
+        form = forms.CustomServiceOrderForm()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = forms.CustomServiceOrderForm(request.POST)
+        if form.is_valid():
+            custom_service_order = form.save(commit=False)
+            custom_service_order.customer = request.user
+            custom_service_order.save()
             return redirect('order_list')
 
-        return render(request, self.template_name, {
-            'order_type': order_type,
-            'regular_service_form': regular_service_form,
-            'custom_service_form': custom_service_form,
-        })
+        return render(request, self.template_name, {'form': form})
 
 
 @method_decorator(login_required, name='dispatch')
@@ -115,13 +118,25 @@ class OrderListView(View):
     template_name = 'clinic/order_list.html'
 
     def get(self, request, *args, **kwargs):
-        service_orders_regular = models.ServiceOrder.objects.filter(customer=request.user, custom_service__isnull=True)
-        service_orders_custom = models.ServiceOrder.objects.filter(customer=request.user, regular_service__isnull=True)
+        service_orders = models.ServiceOrder.objects.filter(customer=request.user)
 
         return render(request, self.template_name, {
-            'service_orders_regular': service_orders_regular,
-            'service_orders_custom': service_orders_custom,
+            'service_orders': service_orders,
         })
+    
+@method_decorator(login_required, name='dispatch')
+class CancelOrderView(View):
+
+    def post(self, request, order_id, *args, **kwargs):
+        order = get_object_or_404(models.ServiceOrder, id=order_id, customer=request.user)
+
+
+        if order.status == 0:
+
+            order.status = 2  
+            order.save()
+
+        return redirect('order_list')
     
     
 class AlbumListView(ListView):

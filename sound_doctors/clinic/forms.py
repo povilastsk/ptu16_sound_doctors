@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 class RegularServiceOrderForm(forms.ModelForm):
     class Meta:
         model = models.ServiceOrder
-        fields = ['doctor', 'regular_service']
+        fields = ['doctor', 'regular_service', "instrument"]
 
     def __init__(self, *args, **kwargs):
         super(RegularServiceOrderForm, self).__init__(*args, **kwargs)
@@ -28,7 +28,7 @@ class CustomServiceOrderForm(forms.ModelForm):
 
     class Meta:
         model = models.ServiceOrder
-        fields = ['doctor', 'custom_service', 'instrument', 'custom_text']
+        fields = ['doctor', 'instrument', 'custom_text']
 
     def clean(self):
         cleaned_data = super().clean()

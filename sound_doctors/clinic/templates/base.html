@@ -19,7 +19,8 @@
                 <li><a href="{% url 'about_us' %}">{% trans "about us"|capfirst %}</a></li>
                 <li class="spacer"></li>
             {% if user.is_authenticated %}
-                <li><a href="{% url "order_service" %}">{% trans "booking"|title %}</a></li>
+                <li><a href="{% url "regular_service_order" %}">{% trans "ordering"|title %}</a></li>
+                <li><a href="{% url "custom_service_order" %}">{% trans "custom ordering"|title %}</a></li>
                 <li><a href="{% url "order_list" %}">{% trans "my orders"|title %}</a></li>
                 {% if user.is_superuser or user.is_staff %}
                     <li><a href="{% url "admin:index" %}">{% trans "admin"|title %}</a></li>
