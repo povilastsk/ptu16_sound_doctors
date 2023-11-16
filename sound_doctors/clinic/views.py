@@ -140,41 +140,28 @@ class AlbumListView(ListView):
     context_object_name = 'albums'
 
 
-@method_decorator(login_required, name='dispatch')
 class AlbumDetailView(View):
     template_name = 'clinic/album_detail.html'
 
+    @method_decorator(login_required)
     def get(self, request, *args, **kwargs):
         album = get_object_or_404(models.Album, pk=kwargs['pk'])
         reviews = models.AlbumReview.objects.filter(album=album).order_by('-created_at')
         review_form = forms.AlbumReviewForm(initial={'album': album.id, 'reviewer': request.user.id}) if request.user.is_authenticated else None
-        album_sale_form = forms.AlbumSaleForm()
+        return render(request, self.template_name, {'album': album, 'reviews': reviews, 'review_form': review_form})
 
-        return render(request, self.template_name, {'album': album, 'reviews': reviews, 'review_form': review_form, 'album_sale_form': album_sale_form})
-
+    @method_decorator(login_required)
     def post(self, request, *args, **kwargs):
         album = get_object_or_404(models.Album, pk=kwargs['pk'])
         review_form = forms.AlbumReviewForm(request.POST)
-        album_sale_form = forms.AlbumSaleForm(request.POST)
 
         if 'review_submit' in request.POST:
             if review_form.is_valid():
                 review_form.save()
-            else:
-                reviews = models.AlbumReview.objects.filter(album=album).order_by('-created_at')
-                return render(request, self.template_name, {'album': album, 'reviews': reviews, 'review_form': review_form, 'album_sale_form': album_sale_form})
 
         elif 'buy_now' in request.POST:
-            if album_sale_form.is_valid():
-                album_sale = album_sale_form.save(commit=False)
-                album_sale.customer = request.user
-                album_sale.album = album
-                album_sale.save()
-
-                return redirect('album_order_list')
-            else:
-                reviews = models.AlbumReview.objects.filter(album=album).order_by('-created_at')
-                return render(request, self.template_name, {'album': album, 'reviews': reviews, 'review_form': review_form, 'album_sale_form': album_sale_form})
+            album_sale = models.AlbumSale.objects.create(customer=request.user, album=album)
+            return redirect('album_order_list')
 
         return redirect('album_detail', pk=album.id)
     

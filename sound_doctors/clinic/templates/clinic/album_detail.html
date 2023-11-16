@@ -28,10 +28,9 @@
             <button type="submit" name="review_submit">{% trans "Post Review"|capfirst %}</button>
         </form>
         <h3>{% trans "Buy this Album"|capfirst %}</h3>
-        <form method="post" action="{% url 'album_sale' pk=album.id %}">
+        <form method="post" action="{% url 'album_detail' pk=album.id %}">
             {% csrf_token %}
             <input type="hidden" name="album_id" value="{{ album.id }}">
-            {{ album_sale_form.as_p }}
             <button type="submit" name="buy_now">{% trans "Buy Now"|capfirst %}</button>
         </form>
         {% else %}
