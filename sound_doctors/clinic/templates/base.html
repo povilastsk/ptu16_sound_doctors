@@ -13,50 +13,43 @@
 <body>
     <header>
         <nav>
-            <ul>
+            <ul class = "nav">
                 <li><a href="{% url 'index' %}">{% trans "home"|capfirst %}</a></li>
                 <li><a href="{% url 'service_list' %}">{% trans "services"|capfirst %}</a></li>
                 <li><a href="{% url 'doctor_list' %}">{% trans "staff"|capfirst %}</a></li>
                 <li><a href="{% url 'album_list' %}">{% trans "albums"|capfirst %}</a></li>
                 <li><a href="{% url 'about_us' %}">{% trans "about us"|capfirst %}</a></li>
                 <li class="spacer"></li>
-            {% if user.is_authenticated %}
-                <li><a href="{% url "regular_service_order" %}">{% trans "ordering"|title %}</a></li>
-                <li><a href="{% url "custom_service_order" %}">{% trans "custom ordering"|title %}</a></li>
-                <li><a href="{% url "order_list" %}">{% trans "service orders"|title %}</a></li>
-                <li><a href="{% url "album_order_list" %}">{% trans "album orders"|title %}</a></li>
-                {% if user.is_superuser or user.is_staff %}
-                    <li><a href="{% url "admin:index" %}">{% trans "admin"|title %}</a></li>
-                {% endif %}
-                    <li><a href="{% url "profile" %}">{% trans "My profile"|title %}</a></li>
-                    <li><a href="{% url "logout" %}">{% trans "logout"|title %}</a></li>
-            {% else %}
-                <li><a href="{% url "login" %}">{% trans "login"|title %}</a></li>
-                <li><a href="{% url "signup" %}">{% trans "sign up"|title %}</a></li>
-            {% endif %}
-            <li>
-                <form class="inline-form" action="{% url "set_language" %}" method="post">
-                    {% csrf_token %}
-                    <select name="language" onchange="this.form.submit();">
-                        {% for language_code, language_name in LANGUAGES %}
-                            <option value="{{ language_code }}" {% if language_code == LANGUAGE_CODE %}selected{% endif %}>
-                                {{ language_name }}
-                            </option>
-                        {% endfor %}
-                    </select>
-                </form>
-            </li>
+                <li class="account-dropdown">
+                    <a href="#" class="account-trigger">{% trans "My Account"|title %}</a>
+                    <div class="dropdown-content">
+                        {% if user.is_authenticated %}
+                            <a href="{% url "regular_service_order" %}">{% trans "ordering"|title %}</a>
+                            <a href="{% url "custom_service_order" %}">{% trans "custom ordering"|title %}</a>
+                            <a href="{% url "order_list" %}">{% trans "service orders"|title %}</a>
+                            <a href="{% url "album_order_list" %}">{% trans "album orders"|title %}</a>
+                            {% if user.is_superuser or user.is_staff %}
+                                <a href="{% url "admin:index" %}">{% trans "admin"|title %}</a>
+                            {% endif %}
+                            <a href="{% url "profile" %}">{% trans "My profile"|title %}</a>
+                            <a href="{% url "logout" %}">{% trans "logout"|title %}</a>
+                        {% else %}
+                            <a href="{% url "login" %}">{% trans "login"|title %}</a>
+                            <a href="{% url "signup" %}">{% trans "sign up"|title %}</a>
+                        {% endif %}
+                    </div>
+                </li>
             </ul>
         </nav>
     </header>
     <main>
         {% if messages %}
             {% for message in messages %}
-            <div class="box box-{{ message.tags }}">
-                {{ message}}
-            </div>
-        {% endfor %}
-    {% endif %}
+                <div class="box box-{{ message.tags }}">
+                    {{ message}}
+                </div>
+            {% endfor %}
+        {% endif %}
         {% block content%}
         {% endblock content%}
     </main>
