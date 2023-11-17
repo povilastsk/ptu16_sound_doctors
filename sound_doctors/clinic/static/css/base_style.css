@@ -288,7 +288,7 @@ color: #777;
 }
 
 .info-section {
-    flex: 0 0 48%; /* Adjust the width of each info section as needed */
+    flex: 0 0 48%;
     margin-bottom: 20px;
 }
 
