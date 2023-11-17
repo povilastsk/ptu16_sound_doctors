@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.db import models
+from PIL import Image
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
 from tinymce.models import HTMLField
@@ -188,6 +189,16 @@ class Album(models.Model):
     
     def get_absolute_url(self):
         return reverse("album_detail", kwargs={"pk": self.pk})
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        if self.cover:
+            img = Image.open(self.cover.path)
+            if img.width > 300 or img.height > 300:
+                output_size = (300, 300)
+                img.thumbnail(output_size)
+                img.save(self.cover.path)
     
 
 class AlbumReview(models.Model):

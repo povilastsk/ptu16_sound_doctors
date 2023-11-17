@@ -166,7 +166,7 @@ text-decoration: none;
 }
 
 .card {
-width: 300px;
+width: 340px;
 margin: 10px;
 border: 1px solid #ddd;
 border-radius: 8px;
@@ -221,10 +221,6 @@ cursor: pointer;
 
 button:hover {
 background-color: #45a049;
-}
-
-.reviews-section {
-flex: 1;
 }
 
 .review {
