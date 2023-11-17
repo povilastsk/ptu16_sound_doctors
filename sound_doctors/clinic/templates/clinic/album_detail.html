@@ -2,39 +2,42 @@
 {% load static %}
 {% load i18n %}
 {% block content %}
-    <h1>{% trans "Album Details"|capfirst %}</h1>
-    <div class="album-details">
-        {% if album.cover %}
-            <img src="{{ album.cover.url }}" alt="{{ album.title }} Cover">
-        {% else %}
-            <img src="{% static 'img/default_album.jpg' %}" alt="{% trans 'Default Album Cover' %}">
-        {% endif %}
-        <h2>{{ album.title }}</h2>
-        <p>{{ album.artist }}</p>
+  <h1>{% trans "Album Details"|capfirst %}</h1>
+  <div class="album-details">
+    <div class="album-info">
+      {% if album.cover %}
+        <img src="{{ album.cover.url }}" alt="{{ album.title }} Cover">
+      {% else %}
+        <img src="{% static 'img/default_album.jpg' %}" alt="{% trans 'Default Album Cover' %}">
+      {% endif %}
+      <h2>{{ album.title }}</h2>
+      <p>{{ album.artist }}</p>
+    </div>
+    <div class="reviews-section">
+      <h3>{% trans "Reviews"|capfirst %}</h3>
+      {% for review in reviews %}
+        <div class="review">
+          <p><strong>{{ review.reviewer.username }}</strong>: {{ review.content }}</p>
+          <p class="timestamp">{% trans "Created at:"|capfirst %} {{ review.created_at|date:"F j, Y H:i" }}</p>
+        </div>
+      {% endfor %}
 
-        <h3>{% trans "Reviews"|capfirst %}</h3>
-        {% for review in reviews %}
-            <div class="review">
-                <p><strong>{{ review.reviewer.username }}</strong>: {{ review.content }}</p>
-                <p class="timestamp">{% trans "Created at:"|capfirst %} {{ review.created_at|date:"F j, Y H:i" }}</p>
-            </div>
-        {% endfor %}
-
-        {% if user.is_authenticated %}
+      {% if user.is_authenticated %}
         <h3>{% trans "Post a Review"|capfirst %}</h3>
         <form method="post" action="{% url 'album_detail' pk=album.id %}">
-            {% csrf_token %}
-            {{ review_form.as_p }}
-            <button type="submit" name="review_submit">{% trans "Post Review"|capfirst %}</button>
+          {% csrf_token %}
+          {{ review_form.as_p }}
+          <button type="submit" name="review_submit">{% trans "Post Review"|capfirst %}</button>
         </form>
         <h3>{% trans "Buy this Album"|capfirst %}</h3>
         <form method="post" action="{% url 'album_detail' pk=album.id %}">
-            {% csrf_token %}
-            <input type="hidden" name="album_id" value="{{ album.id }}">
-            <button type="submit" name="buy_now">{% trans "Buy Now"|capfirst %}</button>
+          {% csrf_token %}
+          <input type="hidden" name="album_id" value="{{ album.id }}">
+          <button type="submit" name="buy_now">{% trans "Buy Now"|capfirst %}</button>
         </form>
-        {% else %}
-            <p>{% trans "Log in to post a review or buy the album."|capfirst %}</p>
-        {% endif %}
+      {% else %}
+        <p>{% trans "Log in to post a review or buy the album."|capfirst %}</p>
+      {% endif %}
     </div>
+  </div>
 {% endblock %}

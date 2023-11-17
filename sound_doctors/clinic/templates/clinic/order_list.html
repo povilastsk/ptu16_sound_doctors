@@ -2,12 +2,12 @@
 {% load static %}
 {% load i18n %}
 {% block content %}
+
   <h2>Service Orders</h2>
   
-  <table>
+  <table class="styled-table">
     <thead>
       <tr>
-        <th>Customer</th>
         <th>Status</th>
         <th>Doctor</th>
         <th>Regular Service</th>
@@ -19,7 +19,6 @@
     <tbody>
       {% for order in service_orders %}
         <tr>
-          <td>{{ order.customer.username }}</td>
           <td>{{ order.get_status_display }}</td>
 
           <td>

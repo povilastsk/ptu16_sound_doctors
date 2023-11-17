@@ -2,18 +2,18 @@
 {% load static %}
 {% load i18n %}
 {% block content %}
-  <h1>{% trans "albums"|capfirst %}</h1>
-  <div class="album-list">
+  <h1>{% trans "Albums"|capfirst %}</h1>
+  <div class="card-container">
     {% for album in albums %}
-      <a href="{% url 'album_detail' pk=album.pk %}" class="album-link">
-        <div class="album">
+      <a href="{% url 'album_detail' pk=album.pk %}" class="card album-link">
+        <div class="card-body">
           {% if album.cover %}
-            <img src="{{ album.cover.url }}" alt="{{ album.title }} Cover">
+            <img src="{{ album.cover.url }}" alt="{{ album.title }} Cover" class="card-title">
           {% else %}
-            <img src="{% static "img/default_album.jpg" %}" alt="{% trans "Default Album Cover" %}">
+            <img src="{% static "img/default_album.jpg" %}" alt="{% trans "Default Album Cover" %}" class="card-title">
           {% endif %}
-          <h2>{{ album.artist }}</h2>
-          <p>{{ album.title }}</p>
+          <h2 class="card-title">{{ album.artist }}</h2>
+          <p class="card-text">{{ album.title }}</p>
         </div>
       </a>
     {% endfor %}
