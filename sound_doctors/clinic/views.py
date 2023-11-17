@@ -53,13 +53,13 @@ class ServiceDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
+        
         context['reviews'] = models.ServiceReview.objects.filter(service=self.object).order_by('-created_at')
 
         context['form'] = forms.ServiceReviewForm(initial={'service': self.object.id, 'reviewer': self.request.user.id})
 
         return context
-
+    
     def post(self, request, *args, **kwargs):
         form = forms.ServiceReviewForm(request.POST)
         if form.is_valid():

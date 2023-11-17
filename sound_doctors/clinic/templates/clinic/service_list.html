@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% load i18n %}
+
 {% block content %}
     <h1>{% trans "service"|capfirst %}</h1>
     <table class="styled-table">
@@ -12,17 +13,17 @@
             </tr>
         </thead>
         <tbody>
-            {% for service in services %}
+            {% for regular_service in services %}
                 <tr>
                     <td>
                         {% if user.is_authenticated %}
-                            <a href="{{ service.get_absolute_url }}">{{ service.name }}</a>
+                            <a href="{% url 'service_detail' pk=regular_service.id %}">{{ regular_service.name }}</a>
                         {% else %}
-                            {{ service.name }}
+                            {{ regular_service.name }}
                         {% endif %}
                     </td>
-                    <td>{{ service.price }} €</td>
-                    <td>{{ service.about|safe }}</td>
+                    <td>{{ regular_service.price }} €</td>
+                    <td>{{ regular_service.about|safe }}</td>
                 </tr>
             {% endfor %}
         </tbody>

@@ -54,7 +54,10 @@ class RegularService(models.Model):
 
     def __str__(self):
         return f"{self.name} {self.price} {self.about}"
-
+    
+    def get_absolute_url(self):
+        return reverse('service_detail', kwargs={'pk': self.pk})
+    
 
 class CustomService(models.Model):
     custom_text = models.TextField(_("custom_text"), max_length=500, default='', blank=True)
