@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{% static "css/base_style.css" %}">
     <link rel="icon" href="{% static 'img/note.svg' %}" type="image/svg">
 </head>
-<body class="index-page">
+<body class="{% if request.path == '/' %}index-page{% endif %}">
     <header>
         <nav>
             <ul class="nav">
@@ -57,12 +57,4 @@
         <p>&copy; <a href="{% url "index" %}">{% trans "sound doctors"|title %}</a></p>
     </footer>
 </body>
-<style>
-    body.index-page {
-        background-image: url('static/img/recept.jpg');
-        background-size: cover; /* Adjust as needed */
-        background-position: center; /* Adjust as needed */
-        background-repeat: no-repeat;
-    }
-</style>
 </html>
