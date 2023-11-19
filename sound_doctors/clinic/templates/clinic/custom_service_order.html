@@ -2,10 +2,10 @@
 {% load static %}
 {% load i18n %}
 {% block content %}
-  <h2>Custom Service Order</h2>
+  <h2>{% trans "custom service order"|capfirst %}</h2>
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Submit Order</button>
+    <button type="submit">{% trans "confirm order"|capfirst %}</button>
   </form>
 {% endblock %}

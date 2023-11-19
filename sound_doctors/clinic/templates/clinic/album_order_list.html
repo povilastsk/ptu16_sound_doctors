@@ -2,14 +2,14 @@
 {% load static %}
 {% load i18n %}
 {% block content %}
-<h2>Album Purchases</h2>
+<h2>{% trans "album purchases"|capfirst %}</h2>
 <table class="styled-table">
       <thead>
           <tr>
-              <th>Status</th>
-              <th>Album Title</th>
-              <th>Artist</th>
-              <th>Action</th>
+              <th>{% trans "status"|capfirst %}</th>
+              <th>{% trans "album title"|capfirst %}</th>
+              <th>{% trans "artist"|capfirst %}</th>
+              <th>{% trans "action"|capfirst %}</th>
           </tr>
       </thead>
       <tbody>
@@ -22,7 +22,7 @@
                     {% if album_sale.status == 0 %}
                       <form method="post" action="{% url 'cancel_album_purchase' album_sale_id=album_sale.id %}">
                         {% csrf_token %}
-                        <button type="submit">Cancel</button>
+                        <button type="submit">{% trans "cancel"|capfirst %}</button>
                       </form>
                     {% endif %}
                   </td>

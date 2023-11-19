@@ -1,0 +1,435 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-11-19 16:05+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < "
+"11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? "
+"1 : n % 1 != 0 ? 2: 3);\n"
+
+#: clinic/forms.py:19
+msgid "Please select a regular service."
+msgstr "Prašome pasirinkti kasdieninę paslaugą"
+
+#: clinic/forms.py:24
+msgid "Custom Text"
+msgstr "Personalizuotas tekstas"
+
+#: clinic/forms.py:39
+msgid "Please select a custom service or provide custom details."
+msgstr "Prašome pasirinkti personalizuotą paslaugą arba pateikti personalizuotą informaciją"
+
+
+#: clinic/models.py:14 clinic/models.py:48
+#: clinic/templates/clinic/service_detail.html:7
+#: clinic/templates/clinic/service_list.html:10
+msgid "name"
+msgstr "pavadinimas"
+
+#: clinic/models.py:15
+msgid "type"
+msgstr "tipas"
+
+#: clinic/models.py:16
+msgid "damage_text"
+msgstr "gedimo aprašymas"
+
+#: clinic/models.py:17
+msgid "damage_img"
+msgstr "gedimo nuotrauka"
+
+#: clinic/models.py:21 clinic/models.py:68 clinic/models.py:111
+#: clinic/templates/clinic/order_list.html:15
+msgid "instrument"
+msgstr "instrumentas"
+
+#: clinic/models.py:22
+msgid "instruments"
+msgstr "instrumentai"
+
+#: clinic/models.py:32
+msgid "first_name"
+msgstr "vardas"
+
+#: clinic/models.py:33
+msgid "last_name"
+msgstr "pavardė"
+
+#: clinic/models.py:34
+msgid "specialization"
+msgstr "specializacija"
+
+#: clinic/models.py:37 clinic/models.py:91
+#: clinic/templates/clinic/order_list.html:12
+msgid "doctor"
+msgstr "daktaras"
+
+#: clinic/models.py:38 clinic/templates/clinic/doctor_list.html:5
+msgid "doctors"
+msgstr "daktarai"
+
+#: clinic/models.py:49 clinic/templates/clinic/service_detail.html:8
+#: clinic/templates/clinic/service_list.html:11
+msgid "price"
+msgstr "kaina"
+
+#: clinic/models.py:50
+msgid "about"
+msgstr "apie"
+
+#: clinic/models.py:53 clinic/models.py:97
+#: clinic/templates/clinic/order_list.html:13
+msgid "regular service"
+msgstr "kasdieninė paslauga"
+
+#: clinic/models.py:54
+msgid "regular services"
+msgstr "kasdieninės paslaugos"
+
+#: clinic/models.py:64
+msgid "custom_text"
+msgstr "personalizuotas aprašymas"
+
+#: clinic/models.py:65
+msgid "custom_img"
+msgstr "personalizuota nuotrauka"
+
+#: clinic/models.py:74 clinic/models.py:104
+#: clinic/templates/clinic/order_list.html:14
+msgid "custom service"
+msgstr "personalizuota paslauga"
+
+#: clinic/models.py:75
+msgid "custom services"
+msgstr "personalizuotos paslaugos"
+
+#: clinic/models.py:82
+msgid "Confirmed"
+msgstr "Patvirtinta"
+
+#: clinic/models.py:83
+msgid "Completed"
+msgstr "Įvykdyta"
+
+#: clinic/models.py:84
+msgid "Cancelled"
+msgstr "Atšaukta"
+
+#: clinic/models.py:116
+msgid "custom text"
+msgstr "personalizuotas aprašymas"
+
+#: clinic/models.py:119 clinic/models.py:244
+msgid "customer"
+msgstr "klientas"
+
+#: clinic/models.py:124 clinic/models.py:249
+#: clinic/templates/clinic/album_order_list.html:9
+#: clinic/templates/clinic/order_list.html:11
+msgid "status"
+msgstr "būsena"
+
+#: clinic/models.py:128 clinic/models.py:253
+msgid "created_at"
+msgstr "sukurta"
+
+#: clinic/models.py:134
+msgid "service"
+msgstr "paslauga"
+
+#: clinic/models.py:141 clinic/models.py:213
+msgid "reviewer"
+msgstr "apžvalgininkas"
+
+#: clinic/models.py:145 clinic/models.py:165 clinic/models.py:217
+msgid "content"
+msgstr "turinys"
+
+#: clinic/models.py:147 clinic/models.py:219
+msgid "created at"
+msgstr "sukurta"
+
+#: clinic/models.py:153
+msgid "service review"
+msgstr "paslaugos apžvalga"
+
+#: clinic/models.py:154
+msgid "service reviews"
+msgstr "paslaugų apžvalgos"
+
+#: clinic/models.py:168 clinic/models.py:169 clinic/templates/base.html:33
+msgid "about us"
+msgstr "apie mus"
+
+#: clinic/models.py:179
+msgid "title"
+msgstr "pavadinimas"
+
+#: clinic/models.py:180 clinic/templates/clinic/album_order_list.html:11
+msgid "artist"
+msgstr "atlikėjas"
+
+#: clinic/models.py:181
+msgid "cover"
+msgstr "viršelis"
+
+#: clinic/models.py:184 clinic/models.py:207 clinic/models.py:239
+msgid "album"
+msgstr "albumas"
+
+#: clinic/models.py:185 clinic/templates/base.html:32
+msgid "albums"
+msgstr "albumai"
+
+#: clinic/models.py:225
+msgid "album review"
+msgstr "albumo viršelis"
+
+#: clinic/models.py:226
+msgid "album reviews"
+msgstr "albumų apžvalgos"
+
+#: clinic/templates/base.html:9
+msgid "sound doctors"
+msgstr ""
+
+#: clinic/templates/base.html:29
+msgid "home"
+msgstr "pradžia"
+
+#: clinic/templates/base.html:30 clinic/templates/clinic/service_list.html:6
+msgid "services"
+msgstr "paslaugos"
+
+#: clinic/templates/base.html:31
+msgid "staff"
+msgstr "personalas"
+
+#: clinic/templates/base.html:36
+msgid "My Account"
+msgstr "Mano Paskyra"
+
+#: clinic/templates/base.html:39
+msgid "ordering"
+msgstr "kasdieninis užsakymas"
+
+#: clinic/templates/base.html:40
+msgid "custom ordering"
+msgstr "personalizuotas užsakymas"
+
+#: clinic/templates/base.html:41 clinic/templates/clinic/order_list.html:6
+msgid "service orders"
+msgstr "paslaugų užsakymai"
+
+#: clinic/templates/base.html:42
+msgid "album orders"
+msgstr "albumų užsakymai"
+
+#: clinic/templates/base.html:44
+msgid "admin"
+msgstr "administratorius"
+
+#: clinic/templates/base.html:46
+msgid "My profile"
+msgstr "Mano profilis"
+
+#: clinic/templates/base.html:47
+msgid "logout"
+msgstr "atsijungti"
+
+#: clinic/templates/base.html:49
+msgid "login"
+msgstr "prisijungti"
+
+#: clinic/templates/base.html:50
+msgid "sign up"
+msgstr "užsiregistruoti"
+
+#: clinic/templates/base.html:58
+msgid "select language"
+msgstr "pasirinkite kalbą"
+
+#: clinic/templates/clinic/about_us.html:4
+msgid "about Us"
+msgstr "apie mus"
+
+#: clinic/templates/clinic/about_us.html:7
+msgid "About Us"
+msgstr "Apie Mus"
+
+#: clinic/templates/clinic/about_us.html:9
+msgid ""
+"welcome to Sound Doctors, your haven for musical instrument repair and a "
+"treasure trove of timeless music records. Nestled in the heart of the city, "
+"our passion for music craftsmanship and preservation sets us apart"
+msgstr ""
+
+#: clinic/templates/clinic/about_us.html:10
+msgid ""
+"at Sound Doctors, we take pride in bringing your beloved instruments back to "
+"life as any health professional would. Our skilled technicians, with years "
+"of experience, meticulously repair and restore a wide range of musical "
+"instruments, ensuring that each note resonates with perfection. Whether it's "
+"a vintage guitar, a classic saxophone, or a modern electronic keyboard, we "
+"approach each repair with a commitment to excellence"
+msgstr ""
+
+#: clinic/templates/clinic/about_us.html:11
+msgid ""
+"but we're not just a repair shop, we're also your go-to spot for discovering "
+"the magic of music from every era. Step into our cozy store and explore our "
+"curated collection of music records spanning genres and generations. From "
+"the soulful tunes of jazz to the electrifying beats of rock, our carefully "
+"selected records promise to transport you through the rich tapestry of "
+"musical history"
+msgstr ""
+
+#: clinic/templates/clinic/about_us.html:12
+msgid ""
+"our mission at Sound Doctors is to create a haven for musicians and music "
+"enthusiasts alike. Whether you're seeking instrument repairs that breathe "
+"life back into your cherished instrument or searching for that elusive "
+"record to complete your collection, we invite you to join us on a journey "
+"where the love for music knows no bounds"
+msgstr ""
+
+#: clinic/templates/clinic/about_us.html:13
+msgid "you can find our facilities at one of the locations listed below"
+msgstr "gyvai mus galite aplankyti žemiau pateiktais adresais"
+
+#: clinic/templates/clinic/about_us.html:17
+#: clinic/templates/clinic/about_us.html:24
+msgid "address"
+msgstr "adresas"
+
+#: clinic/templates/clinic/about_us.html:18
+#: clinic/templates/clinic/about_us.html:25
+msgid "phone"
+msgstr "telefono numeris"
+
+#: clinic/templates/clinic/about_us.html:19
+#: clinic/templates/clinic/about_us.html:26
+msgid "email"
+msgstr "el. paštas"
+
+#: clinic/templates/clinic/album_detail.html:5
+msgid "album details"
+msgstr "albumo aprašymas"
+
+#: clinic/templates/clinic/album_detail.html:11
+#: clinic/templates/clinic/album_list.html:13
+msgid "Default Album Cover"
+msgstr "Numatytas Albumo Viršelis"
+
+#: clinic/templates/clinic/album_detail.html:17
+#: clinic/templates/clinic/service_detail.html:10
+msgid "reviews"
+msgstr "apžvalgos"
+
+#: clinic/templates/clinic/album_detail.html:21
+#: clinic/templates/clinic/service_detail.html:14
+msgid "created at:"
+msgstr "sukurta"
+
+#: clinic/templates/clinic/album_detail.html:26
+#: clinic/templates/clinic/service_detail.html:18
+msgid "post a review"
+msgstr "įkelkite albumo apžvalgą"
+
+#: clinic/templates/clinic/album_detail.html:30
+#: clinic/templates/clinic/service_detail.html:25
+msgid "Post Review"
+msgstr "Įkelti apžvalgą"
+
+#: clinic/templates/clinic/album_detail.html:32
+msgid "buy this album"
+msgstr "įsigykite šį albumą"
+
+#: clinic/templates/clinic/album_detail.html:36
+msgid "buy now"
+msgstr "pirkti dabar"
+
+#: clinic/templates/clinic/album_detail.html:39
+msgid "log in to post a review or buy the album."
+msgstr "prisijunkite kad galėtumėte įkelti apžvalgą"
+
+#: clinic/templates/clinic/album_list.html:5
+msgid "Albums"
+msgstr "Albumai"
+
+#: clinic/templates/clinic/album_order_list.html:5
+msgid "album purchases"
+msgstr "albumų užsakymai"
+
+#: clinic/templates/clinic/album_order_list.html:10
+msgid "album title"
+msgstr "albumo pavadinimas"
+
+#: clinic/templates/clinic/album_order_list.html:12
+#: clinic/templates/clinic/order_list.html:16
+msgid "action"
+msgstr "veiksmas"
+
+#: clinic/templates/clinic/album_order_list.html:25
+#: clinic/templates/clinic/order_list.html:55
+msgid "cancel"
+msgstr "atšaukti"
+
+#: clinic/templates/clinic/custom_service_order.html:5
+msgid "custom service order"
+msgstr "personalizuotos paslaugos užsakymas"
+
+#: clinic/templates/clinic/custom_service_order.html:9
+#: clinic/templates/clinic/regular_service_order.html:9
+msgid "confirm order"
+msgstr "patvirtinti užsakymą"
+
+#: clinic/templates/clinic/doctor_list.html:17
+msgid "no doctors available"
+msgstr "nėra prieinamų daktarų"
+
+#: clinic/templates/clinic/index.html:3
+msgid "Home"
+msgstr "Pradžia"
+
+#: clinic/templates/clinic/index.html:6
+msgid "welcome to"
+msgstr "sveiki atvykę į"
+
+#: clinic/templates/clinic/index.html:7
+msgid "your trusted destination for instrument repairs and recording purchases"
+msgstr "jūsų instrumentų taisymas ir įrašų paieškos mūsų patikimose rankose"
+
+#: clinic/templates/clinic/index.html:8
+msgid "click here to see our services"
+msgstr "paspauskite peržiūrėti mūsų paslaugas"
+
+#: clinic/templates/clinic/regular_service_order.html:5
+msgid "regular service order"
+msgstr "kasdieninės paslaugos užsakymas"
+
+#: clinic/templates/clinic/service_detail.html:6
+msgid "service details"
+msgstr "paslaugos aprašymas"
+
+#: clinic/templates/clinic/service_detail.html:9
+#: clinic/templates/clinic/service_list.html:12
+msgid "about service"
+msgstr "apie paslaugą"
+
+#: clinic/templates/clinic/service_detail.html:28
+msgid "log in to post a review."
+msgstr "prisijunkite norėdami įkelti apžvalgą"

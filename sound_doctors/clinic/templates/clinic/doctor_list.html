@@ -2,7 +2,7 @@
 {% load static %}
 {% load i18n %}
 {% block content %}
-    <h1>{% trans "Doctors" %}</h1>
+    <h1>{% trans "doctors"|capfirst %}</h1>
     <div class="card-container">
         {% if doctors %}
             {% for doctor in doctors %}
@@ -14,7 +14,7 @@
                 </div>
             {% endfor %}
         {% else %}
-            <p>{% trans "No doctors available." %}</p>
+            <p>{% trans "no doctors available"|capfirst %}.</p>
         {% endif %}
     </div>
 {% endblock content %}

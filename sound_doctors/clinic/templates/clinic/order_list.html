@@ -3,17 +3,17 @@
 {% load i18n %}
 {% block content %}
 
-  <h2>Service Orders</h2>
+  <h2>{% trans "service orders"|capfirst %}</h2>
   
   <table class="styled-table">
     <thead>
       <tr>
-        <th>Status</th>
-        <th>Doctor</th>
-        <th>Regular Service</th>
-        <th>Custom Service</th>
-        <th>Instrument</th>
-        <th>Action</th>
+        <th>{% trans "status"|capfirst %}</th>
+        <th>{% trans "doctor"|capfirst %}</th>
+        <th>{% trans "regular service"|capfirst %}</th>
+        <th>{% trans "custom service"|capfirst %}</th>
+        <th>{% trans "instrument"|capfirst %}</th>
+        <th>{% trans "action"|capfirst %}</th>
       </tr>
     </thead>
     <tbody>
@@ -52,7 +52,7 @@
             {% if order.status == 0 %}
               <form method="post" action="{% url 'cancel_order' order.id %}">
                 {% csrf_token %}
-                <button type="submit">Cancel</button>
+                <button type="submit">{% trans "cancel"|capfirst %}</button>
               </form>
             {% endif %}
           </td>

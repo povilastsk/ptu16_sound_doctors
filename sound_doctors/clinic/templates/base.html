@@ -51,6 +51,21 @@
                         {% endif %}
                     </div>
                 </li>
+                <li>
+                    <form class="inline-form" action="{% url "set_language" %}" method="post">
+                        {% csrf_token %}
+                        <div class="language-picker">
+                            <label for="select-language" class="visually-hidden">{% trans "select language"|capfirst %}</label>
+                            <select id="select-language" name="language" onchange="this.form.submit();">
+                                {% for language_code, language_name in LANGUAGES %}
+                                    <option value="{{ language_code }}" {% if language_code == LANGUAGE_CODE %}selected{% endif %}>
+                                        {{ language_name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </form>
+                </li>
             </ul>
         </nav>
     </header>
@@ -66,7 +81,7 @@
         {% endblock content%}
     </main>
     <footer>
-        <p>&copy; <a href="{% url "index" %}">{% trans "sound doctors"|title %}</a></p>
+        <p>&copy; <a href="{% url "index" %}">Sound Doctors</a></p>
     </footer>
 </body>
 </html>

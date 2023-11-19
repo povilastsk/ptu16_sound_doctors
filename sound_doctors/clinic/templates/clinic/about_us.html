@@ -1,26 +1,29 @@
 {% extends "base.html" %}
 {% load static %}
 {% load i18n %}
-{% block title %}{% trans "About Us"|capfirst %} {{block.super}}{% endblock title %}
+{% block title %}{% trans "about Us"|capfirst %} {{block.super}}{% endblock title %}
 {% block content %}
     <div class="about-us">
         <h1 class="page-heading">{% trans "About Us"|capfirst %}</h1>
         <p>{{ about_us_content.content|safe }}</p>
+        <p>{% translate "welcome to Sound Doctors, your haven for musical instrument repair and a treasure trove of timeless music records. Nestled in the heart of the city, our passion for music craftsmanship and preservation sets us apart"|capfirst %}.</p>
+        <p>{% trans "at Sound Doctors, we take pride in bringing your beloved instruments back to life as any health professional would. Our skilled technicians, with years of experience, meticulously repair and restore a wide range of musical instruments, ensuring that each note resonates with perfection. Whether it's a vintage guitar, a classic saxophone, or a modern electronic keyboard, we approach each repair with a commitment to excellence"|capfirst %}.</p>
+        <p>{% trans "but we're not just a repair shop, we're also your go-to spot for discovering the magic of music from every era. Step into our cozy store and explore our curated collection of music records spanning genres and generations. From the soulful tunes of jazz to the electrifying beats of rock, our carefully selected records promise to transport you through the rich tapestry of musical history"|capfirst %}.</p>
+        <p>{% trans "our mission at Sound Doctors is to create a haven for musicians and music enthusiasts alike. Whether you're seeking instrument repairs that breathe life back into your cherished instrument or searching for that elusive record to complete your collection, we invite you to join us on a journey where the love for music knows no bounds"|capfirst %}.</p>
+        <p>{% trans "you can find our facilities at one of the locations listed below"|capfirst %}:</p>
         <div class="about-info">
             <div class="info-section">
-                <img src="{% static 'img/map1.jpg' %}" alt="Map Image 1">
                 <ul>
-                    <li><strong>{% trans "Address" %}:</strong> 1337 Carson Ave., Los Djangos</li>
-                    <li><strong>{% trans "Phone" %}:</strong> <a href="tel:+11234567890">+1 (123) 456-7890</a></li>
-                    <li><strong>{% trans "Email" %}:</strong> <a href="mailto:info@example.com">sound_docs@mail.com</a></li>
+                    <li><strong>{% trans "address"|capfirst %}:</strong> 2023 Vespucci Blvd., Los Djangos</li>
+                    <li><strong>{% trans "phone"|capfirst %}:</strong> <a href="tel:+11234567890">+1 (123) 456-7890</a></li>
+                    <li><strong>{% trans "email"|capfirst %}:</strong> <a href="mailto:info@example.com">sound_docs@mail.com</a></li>
                 </ul>
             </div>
             <div class="info-section">
-                <img src="{% static 'img/map2.jpg' %}" alt="Map Image 2">
                 <ul>
-                    <li><strong>{% trans "Address" %}:</strong> 420 Cortes St., Los Djangos</li>
-                    <li><strong>{% trans "Phone" %}:</strong> <a href="tel:+11234567890">+1 (123) 456-7890</a></li>
-                    <li><strong>{% trans "Email" %}:</strong> <a href="mailto:info@example.com">sound_docs@mail.com</a></li>
+                    <li><strong>{% trans "address"|capfirst %}:</strong> 16 Prosperity St., Los Djangos</li>
+                    <li><strong>{% trans "phone"|capfirst %}:</strong> <a href="tel:+11234567890">+1 (123) 456-7890</a></li>
+                    <li><strong>{% trans "email"|capfirst %}:</strong> <a href="mailto:info@example.com">sound_docs@mail.com</a></li>
                 </ul>
             </div>
         </div>
