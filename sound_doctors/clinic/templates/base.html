@@ -9,8 +9,20 @@
     <title>{% block title %}{% trans "sound doctors"|title %}{% endblock %}</title>
     <link rel="stylesheet" href="{% static "css/base_style.css" %}">
     <link rel="icon" href="{% static 'img/note.svg' %}" type="image/svg">
+    {% if request.path == '/' %}
+    <style>
+        main {
+            background-image: url('{% static "img/work1.jpg" %}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            flex-grow: 1;
+            padding: 20px;
+        }
+    </style>
+    {% endif %}
 </head>
-<body class="{% if request.path == '/' %}index-page{% endif %}">
+<body>
     <header>
         <nav>
             <ul class="nav">
@@ -42,7 +54,7 @@
             </ul>
         </nav>
     </header>
-    <main>
+    <main class="main-background">
         {% if messages %}
             {% for message in messages %}
                 <div class="box box-{{ message.tags }}">

@@ -6,28 +6,28 @@ padding: 0;
 display: flex;
 flex-direction: column;
 min-height: 100vh;
-background-color: #f77474;
+background-color: #EEE4AF;
 }
 
 #hero {
-background-size: cover;
-background-position: center;
-background-repeat: no-repeat;
-color: white;
-text-align: center;
-padding: 100px 0;
-position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #261D21;
+    text-align: center;
+    padding: 50px 0;
+    position: relative;
+    background-color: rgba(238, 223, 148, 0.6); /* Adjust the alpha value as needed */
 }
 
 #hero::before {
-content: "";
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background: rgba(0, 0, 0, 0.7);
-z-index: -1;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
 }
 
 #hero h1 {
@@ -41,7 +41,7 @@ margin-bottom: 30px;
 #hero a {
 text-decoration: none;
 font-weight: bold;
-color: #ffffff;
+color: white;
 transition: color 0.3s ease;
 }
 
@@ -50,9 +50,9 @@ color: #ffcc00;
 }
 
 header {
-background-color: #333;
-color: #fff;
+background-color: #92ABB6;
 padding: 10px 20px;
+height: 20px;
 }
 
 nav ul.nav {
@@ -61,7 +61,7 @@ justify-content: space-between;
 list-style-type: none;
 padding: 0;
 margin: 0;
-align-items: center;
+align-items: center; 
 }
 
 ul.nav li {
@@ -71,13 +71,14 @@ padding: 0;
 
 ul.nav a {
 text-decoration: none;
-color: #fff;
+font-weight: bolder;
+color: #261D21;
 font-size: 18px;
 padding: 15px 20px;
 }
 
 ul.nav a:hover {
-background-color: #555;
+background-color: #4E2B4B;
 color: #ffd700;
 }
 
@@ -96,7 +97,7 @@ padding: 15px 20px;
 .dropdown-content {
 display: none;
 position: absolute;
-background-color: #555;
+background-color: #92ABB6;
 box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 z-index: 1;
 border-top: 2px solid #333;
@@ -121,30 +122,39 @@ color: #ffd700;
 }
 
 main {
-flex-grow: 1;
-padding: 20px;
+    background-image: url('static/img/work1.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    flex-grow: 1;
+    padding: 20px;
 }
 
 footer {
-background-color: #333;
-color: #fff;
+background-color: #92ABB6;
+color: black;
 padding: 10px 20px;
 text-align: center;
 margin-top: auto;
+height: 40px;
 }
 
 footer a {
-color: #fff;
+color: black;
+font-weight: bolder;
 text-decoration: none;
 }
+
 footer a:hover {
 color: #ffd700;
 }
+
 a {
-    text-decoration: none;
+text-decoration: none;
+color: #261D21;
 }
 p {
-    text-decoration: none;
+text-decoration: none;
 }
 
 .box {
@@ -158,11 +168,12 @@ border-collapse: collapse;
 margin: 25px 0;
 font-size: 16px;
 text-align: left;
-background-color: #f5f5f5;
+background-color: #92ABB6;
 }
 
 .styled-table th {
-background-color: #d9d9d9; 
+background-color: #4E2B4B;
+color: white;
 padding: 12px 15px;
 text-align: center;
 font-weight: bold;
@@ -173,19 +184,21 @@ border: 1px solid #ddd;
 padding: 10px 15px;
 border: 1px solid #ddd;
 text-align: center;
+font-weight: bolder;
 }
 
 .styled-table tbody tr:nth-child(even) {
-background-color: #f9f9f9;
+background-color: #92ABB6;
 }
 
 .styled-table a {
-color: #007bff;
+color: black;
 text-decoration: none;
 }
 
 .styled-table a:hover {
 text-decoration: none;
+color:yellow;
 }
 
 h1 {
@@ -218,7 +231,7 @@ text-decoration: none;
 .card-body {
 padding: 20px;
 text-decoration: none;
-background-color: #f5f5f5; /* Light gray background */
+background-color: #eedf94;
 }
 
 .card-title {
@@ -247,8 +260,9 @@ flex: 1;
 }
 
 button {
-background-color: #4CAF50;
+background-color: #5b6b72;
 color: white;
+font-weight: bold;
 padding: 10px 15px;
 border: none;
 border-radius: 5px;
@@ -256,7 +270,8 @@ cursor: pointer;
 }
 
 button:hover {
-background-color: red;
+background-color: #4E2B4B;
+color: yellow;
 }
 
 .review {
@@ -276,56 +291,57 @@ color: #777;
 }
 
 .about-us {
-    max-width: 800px;
-    margin: 50px auto;
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
+max-width: 800px;
+margin: 50px auto;
+background-color: white;
+padding: 20px;
+border-radius: 10px;
+background-color:#eedf94;
 }
 
 .page-heading {
-    font-size: 36px;
-    margin-bottom: 20px;
+font-size: 36px;
+margin-bottom: 20px;
 }
 
 .about-info {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+display: flex;
+justify-content: space-between;
+flex-wrap: wrap;
 }
 
 .info-section {
-    flex: 0 0 48%;
-    margin-bottom: 20px;
+flex: 0 0 48%;
+margin-bottom: 20px;
 }
 
 .info-section img {
-    width: 100%;
-    border-radius: 8px;
-    margin-bottom: 10px;
+width: 100%;
+border-radius: 8px;
+margin-bottom: 10px;
 }
 
 .container {
-    max-width: 600px;
-    margin: 50px auto;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+max-width: 600px;
+margin: 50px auto;
+background-color: #fff;
+padding: 20px;
+border-radius: 8px;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 h2 {
-    color: #333;
+color: #333;
 }
 
 form {
-    margin-top: 20px;
+margin-top: 20px;
 }
 
 label {
-    display: block;
-    margin-bottom: 8px;
-    color: yellow;
+display: block;
+margin-bottom: 8px;
+color: black;
 }
 
 input[type="text"],
@@ -333,34 +349,36 @@ input[type="email"],
 input[type="number"],
 input[type="password"],
 select {
-    width: 15%;
-    padding: 10px;
-    margin-bottom: 15px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    text-decoration: none;
+width: 15%;
+padding: 10px;
+margin-bottom: 15px;
+box-sizing: border-box;
+border: 1px solid #ccc;
+border-radius: 4px;
+text-decoration: none;
 }
 
 .btn {
-    display: inline-block;
-    padding: 10px 15px;
-    background-color: #4CAF50;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
+display: inline-block;
+padding: 10px 15px;
+font-weight: bolder;
+background-color: #5b6b72;
+color: white;
+text-decoration: none;
+border-radius: 5px;
+transition: background-color 0.3s ease;
 }
 
 .btn:hover {
-    background-color: red;
+background-color: #4E2B4B;
+color: yellow;
 }
 
 .box.box-success {
-    background-color: #28a745;
-    color: #fff;
+background-color: #28a745;
+color: #fff;
 }
 .box.box-error {
-    background-color: #dc3545;
-    color: #fff;
+background-color: #dc3545;
+color: #fff;
 }
