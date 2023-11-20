@@ -4,30 +4,30 @@
 {% block content %}
 <h2>{% trans "album purchases"|capfirst %}</h2>
 <table class="styled-table">
-      <thead>
-          <tr>
-              <th>{% trans "status"|capfirst %}</th>
-              <th>{% trans "album title"|capfirst %}</th>
-              <th>{% trans "artist"|capfirst %}</th>
-              <th>{% trans "action"|capfirst %}</th>
-          </tr>
-      </thead>
-      <tbody>
-          {% for album_sale in album_sales %}
-              <tr>
-                  <td>{{ album_sale.get_status_display }}</td>
-                  <td>{{ album_sale.album.title }}</td>
-                  <td>{{ album_sale.album.artist }}</td>
-                  <td>
-                    {% if album_sale.status == 0 %}
-                      <form method="post" action="{% url 'cancel_album_purchase' album_sale_id=album_sale.id %}">
-                        {% csrf_token %}
-                        <button type="submit">{% trans "cancel"|capfirst %}</button>
-                      </form>
-                    {% endif %}
-                  </td>
-              </tr>
-          {% endfor %}
-      </tbody>
-  </table>
+    <thead>
+        <tr>
+            <th>{% trans "status"|capfirst %}</th>
+            <th>{% trans "album title"|capfirst %}</th>
+            <th>{% trans "artist"|capfirst %}</th>
+            <th>{% trans "action"|capfirst %}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for album_sale in album_sales %}
+            <tr>
+                <td>{{ album_sale.get_status_display }}</td>
+                <td>{{ album_sale.album.title }}</td>
+                <td>{{ album_sale.album.artist }}</td>
+                <td>
+                  {% if album_sale.status == 0 %}
+                    <form method="post" action="{% url 'cancel_album_purchase' album_sale_id=album_sale.id %}">
+                      {% csrf_token %}
+                      <button type="submit">{% trans "cancel"|capfirst %}</button>
+                    </form>
+                  {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock content %}

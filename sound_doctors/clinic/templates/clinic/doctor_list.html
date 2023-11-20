@@ -2,19 +2,19 @@
 {% load static %}
 {% load i18n %}
 {% block content %}
-    <h1>{% trans "doctors"|capfirst %}</h1>
-    <div class="card-container">
-        {% if doctors %}
-            {% for doctor in doctors %}
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ doctor.first_name }} {{ doctor.last_name }}</h5>
-                        <p class="card-text">{{ doctor.specialization }}</p>
-                    </div>
+<h1>{% trans "doctors"|capfirst %}</h1>
+<div class="card-container">
+    {% if doctors %}
+        {% for doctor in doctors %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ doctor.first_name }} {{ doctor.last_name }}</h5>
+                    <p class="card-text">{{ doctor.specialization }}</p>
                 </div>
-            {% endfor %}
-        {% else %}
-            <p>{% trans "no doctors available"|capfirst %}.</p>
-        {% endif %}
-    </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>{% trans "no doctors available"|capfirst %}.</p>
+    {% endif %}
+</div>
 {% endblock content %}

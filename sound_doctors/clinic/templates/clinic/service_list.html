@@ -3,29 +3,29 @@
 {% load i18n %}
 
 {% block content %}
-    <h1>{% trans "services"|capfirst %}</h1>
-    <table class="styled-table">
-        <thead>
+<h1>{% trans "services"|capfirst %}</h1>
+<table class="styled-table">
+    <thead>
+        <tr>
+            <th>{% trans "name"|capfirst %}</th>
+            <th>{% trans "price"|capfirst %}</th>
+            <th>{% trans "about service"|capfirst %}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for regular_service in services %}
             <tr>
-                <th>{% trans "name"|capfirst %}</th>
-                <th>{% trans "price"|capfirst %}</th>
-                <th>{% trans "about service"|capfirst %}</th>
+                <td>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'service_detail' pk=regular_service.id %}">{{ regular_service.name }}</a>
+                    {% else %}
+                        {{ regular_service.name }}
+                    {% endif %}
+                </td>
+                <td>{{ regular_service.price }} €</td>
+                <td>{{ regular_service.about|safe }}</td>
             </tr>
-        </thead>
-        <tbody>
-            {% for regular_service in services %}
-                <tr>
-                    <td>
-                        {% if user.is_authenticated %}
-                            <a href="{% url 'service_detail' pk=regular_service.id %}">{{ regular_service.name }}</a>
-                        {% else %}
-                            {{ regular_service.name }}
-                        {% endif %}
-                    </td>
-                    <td>{{ regular_service.price }} €</td>
-                    <td>{{ regular_service.about|safe }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock content %}

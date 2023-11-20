@@ -2,6 +2,7 @@ from django import forms
 from . import models
 from django.utils.translation import gettext_lazy as _
 
+
 class RegularServiceOrderForm(forms.ModelForm):
     class Meta:
         model = models.ServiceOrder
@@ -18,6 +19,7 @@ class RegularServiceOrderForm(forms.ModelForm):
         if not regular_service:
             raise forms.ValidationError(_('Please select a regular service.'))
         return cleaned_data
+    
 
 class CustomServiceOrderForm(forms.ModelForm):
     custom_text = forms.CharField(

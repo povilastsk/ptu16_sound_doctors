@@ -19,13 +19,16 @@ class ServiceAdmin(admin.ModelAdmin):
     search_fields = ("name", )
     list_filter = ("name", )
 
+
 class RegularServiceAdmin(admin.ModelAdmin):
     list_display = ("name", "price", "about")
     search_fields = ("name", )
     list_filter = ("name", )
 
+
 class CustomServiceAdmin(admin.ModelAdmin):
     list_display = ("custom_text", )
+
 
 class ServiceOrderAdmin(admin.ModelAdmin):
     list_display = ("doctor", "regular_service", "customer", "status", "created_at")
@@ -43,10 +46,12 @@ class ServiceReviewAdmin(admin.ModelAdmin):
 class AboutUsAdmin(admin.ModelAdmin):
     list_display = ("content", )
 
+
 class AlbumAdmin(admin.ModelAdmin):
     list_display = ("title", "artist")
     search_fields = ("title", "artist")
     list_filter = ("title", "artist")
+    
 
 class AlbumSaleAdmin(admin.ModelAdmin):
     list_display = ("get_album_title", "get_album_artist", "status")
